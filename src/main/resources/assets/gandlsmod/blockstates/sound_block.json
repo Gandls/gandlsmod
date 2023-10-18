@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "gandlsmod:block/sound_block"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "i": {
+      "item": "minecraft:stick"
+    },
+    "I": {
+      "item": "minecraft:cobblestone"
+    }
+  },
+  "pattern": [
+    "Iii",
+    "i i",
+    "iii"
+  ],
+  "result": {
+    "item": "gandlsmod:druid_stick"
+  },
+  "show_notification": true
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "i": {
+      "item": "minecraft:stick"
+    },
+    "I": {
+      "item": "minecraft:cobblestone"
+    }
+  },
+  "pattern": [
+    "iii",
+    "  i",
+    "Iii"
+  ],
+  "result": {
+    "item": "gandlsmod:warlock_stick"
+  },
+  "show_notification": true
+}
