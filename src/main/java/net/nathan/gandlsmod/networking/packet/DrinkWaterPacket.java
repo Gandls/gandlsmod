@@ -9,7 +9,10 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.animal.Chicken;
+import net.minecraft.world.entity.projectile.Arrow;
 import net.minecraft.world.entity.projectile.Fireball;
 import net.minecraft.world.entity.projectile.LargeFireball;
 import net.minecraft.world.entity.projectile.WitherSkull;
@@ -18,6 +21,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.network.NetworkEvent;
 import net.nathan.gandlsmod.client.ClientThirstData;
+import net.nathan.gandlsmod.effects.ModEffects;
 import net.nathan.gandlsmod.networking.ModMessages;
 import net.nathan.gandlsmod.thirst.PlayerThirstProvider;
 
@@ -93,8 +97,6 @@ public class DrinkWaterPacket {
                         playerThirst.addCheck(0.5f);
                         playerThirst.setCooldown(5.0f, (byte) 0);
                     }
-                    //player.sendSystemMessage(Component.literal("Trying to display particle"));
-                    //Particles are CLIENT SIDE ONLY! They cannot be processed through packets
 
 
                     //When commands like this are done through packets
@@ -103,6 +105,33 @@ public class DrinkWaterPacket {
                     //pLevel.playSound(null,player.blockPosition(), SoundEvents.NOTE_BLOCK_CHIME.get(), SoundSource.BLOCKS, 1f, 1f);
 
                 }
+                if(playerThirst.getpIndex() == 3){
+                    if(playerThirst.getCooldown((byte) 0) <= 0.0f){
+                        //This is a Gravity Wizard using their "Push" projectile
+                        //If the player has a "Push" object already, detonate it, add cooldown
+                        Chicken s = new Chicken(EntityType.CHICKEN,pLevel);
+                        s.moveTo(player.getX(),player.getY()+1.5,player.getZ());
+                        s.setDeltaMovement(player.getLookAngle().x * 0.5f, player.getLookAngle().y * 0.5f, player.getLookAngle().z * 0.5f);
+                        s.setNoGravity(true);
+                        s.setDiscardFriction(true);
+                        //s.setNoAi(true);
+                        s.addEffect(new MobEffectInstance(ModEffects.PUSH.get(),200,0));
+                        pLevel.addFreshEntity(s);
+                        playerThirst.setCooldown(60,(byte) 0);
+                    }
+                }
+
+
+                if(playerThirst.getpIndex() == 4){
+                    //This is a Brawler using Daze Punch
+                    //It should empower their next (fist) attack (use a bool) to
+                    //Against Mobs: Slowness, Nausea, Mining Fatigue, Weakness
+                    //Against Players: Nausea, Mining Fatigue, Low FOV, Low Sensitivity (Use an on/off bool + timer)
+                    if(playerThirst.getCooldown((byte) 0) <= 0.0f) {
+                        playerThirst.setEmpowered(true);
+                    }
+                }
+
                 if(playerThirst.getpIndex() == 5){
                     if(playerThirst.getCooldown((byte) 0 ) == 0.0f) {
                         LargeFireball WS = new LargeFireball(pLevel, player, 0.0f, 0.0f, 0.0f, 5);
@@ -130,6 +159,18 @@ public class DrinkWaterPacket {
                             }
                         }
                     }
+                }
+
+                if(playerThirst.getpIndex() == 8){
+                    //This is an assassin Marking entities nearby for death
+                    if(playerThirst.getCooldown((byte) 1) == 0){
+                        List<Entity> a = player.level().getEntities(player,player.getBoundingBox().inflate(3.0f));
+                        for(Entity b:a){
+                            //Add the effect
+                            ((LivingEntity) b ).addEffect(new MobEffectInstance(ModEffects.MARKED.get(),120,0));
+                            }
+                        }
+                    playerThirst.setCooldown(30,(byte) 1);
                 }
 
 

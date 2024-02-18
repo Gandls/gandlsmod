@@ -15,6 +15,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.nathan.gandlsmod.block.ModBlocks;
+import net.nathan.gandlsmod.effects.ModEffects;
 import net.nathan.gandlsmod.item.ModCreativeModeTabs;
 import net.nathan.gandlsmod.item.ModItems;
 import net.nathan.gandlsmod.networking.ModMessages;
@@ -53,6 +54,7 @@ public class GandlsMod
         ModCreativeModeTabs.register(modEventBus);
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+        ModEffects.register(modEventBus);
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 

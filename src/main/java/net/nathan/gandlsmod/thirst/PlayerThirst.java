@@ -16,7 +16,7 @@ public class PlayerThirst {
 
     private float c1,c2,c3,c4,bonusDamage;
 
-    private boolean first;
+    private boolean empowered,dazed;
 
     public enum pClass{
         Classless,
@@ -60,10 +60,14 @@ public class PlayerThirst {
 
     public int getCharge(){return this.charge;}
 
-    public void setBool(boolean val){
-        first = val;
+    public void setEmpowered(boolean val){
+        empowered = val;
     }
-    public boolean getBool(){return this.first;}
+    public void setDazed(boolean val){
+        dazed = val;
+    }
+    public boolean getEmpowered(){return this.empowered;}
+    public boolean getDazed(){return this.dazed ;}
 
     public float getCheck(){return check;}
 
@@ -103,6 +107,8 @@ public class PlayerThirst {
     }
 
     public void addCheck(float add){this.check+=add;}
+
+    public void setCheck(float val){this.check=val;}
 
     public  void minusCheck(float minus){this.check = Math.max(0f,check-minus);}
 
@@ -173,6 +179,7 @@ public class PlayerThirst {
         c4 = nbt.getFloat("c4");
         bonusDamage = nbt.getFloat("bonusDamage");
         playerClass = pClass.values()[pIndex];
+        empowered = false;
         //If the player loading in is a brawler, set their charge to max
         //"But what if they load in wearing armor?" whenever a player loads in, they are naked, and all their armor is re-equipped
         //So it'll fire the onEquipmentChange event in ModEvents and the logic all works out fine

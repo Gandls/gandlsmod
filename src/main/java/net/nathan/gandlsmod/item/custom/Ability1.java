@@ -58,49 +58,9 @@ public class Ability1 extends Item {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
         Vec3 LA = pPlayer.getLookAngle();
         pPlayer.getCapability(PlayerThirstProvider.PLAYER_THIRST).ifPresent(thirst -> {
-            pPlayer.startFallFlying();
-           // pPlayer.getAbilities().flying = true;
-            pPlayer.setDeltaMovement(LA.scale(10f));
-            if(thirst.getCooldown((byte) 0) > 0.0f){
-                //return;
-            }
-            switch (thirst.getpIndex()){
-                case 0:
-                    break;
-                case 1:
-                    //Warrior
-                    //pPlayer.setDeltaMovement(LA.x*10f,LA.y*10f + 10.0f, LA.z*10f);
-                    //thirst.addCheck(0.5f);
-                    //thirst.setCooldown(5.0f,(byte) 0);
-                    break;
-                case 2:
-                    //Priest
-                    break;
-                case 3:
-                    //Bard
-                    break;
-                case 4:
-                    //Brawler
-                    break;
-                case 5:
-                    //Pyromancer
-                    break;
-                case 6:
-                    //Warlock
-                    WitherSkull WS = new WitherSkull(pLevel, pPlayer, 0.0f,0.0f,0.0f);
-                    WS.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, 1.5F, 1.0F);
-                    WS.setDeltaMovement(pPlayer.getLookAngle().x *0.1f,pPlayer.getLookAngle().y *0.1f,pPlayer.getLookAngle().z *0.1f);
-                    pPlayer.hurt(pLevel.damageSources().magic(),3.0f);
-                    pLevel.addFreshEntity(WS);
-                    thirst.setCooldown(4.0f,(byte)0);
-
-                    break;
-                case 7:
-                    //Druid
-            }
+            pPlayer.sendSystemMessage(Component.literal("Class: " + thirst.getpIndex()));
             //Since you changed data client side, you must tell the server about the changes
 
-            ModMessages.sendtoServer(new DrinkWaterPacket());
 
 
 

@@ -28,6 +28,7 @@ public class ModCreativeModeTabs {
                         pOutput.accept(ModBlocks.END_STONE_SAPPHIRE_ORE.get());
                         pOutput.accept(ModItems.METAL_DETECTOR.get());
                         pOutput.accept(ModBlocks.SOUND_BLOCK.get());
+                        pOutput.accept(ModBlocks.CRUMBLE_BLOCK.get());
                         pOutput.accept(ModItems.CLASS_ERASER.get());
                         pOutput.accept(ModItems.WARRIOR_STICK.get());
                         pOutput.accept(ModItems.PRIEST_STICK.get());
@@ -36,6 +37,7 @@ public class ModCreativeModeTabs {
                         pOutput.accept(ModItems.SHAMAN_STICK.get());
                         pOutput.accept(ModItems.WARLOCK_STICK.get());
                         pOutput.accept(ModItems.PYROMANCER_STICK.get());
+                        pOutput.accept(ModItems.ASSASSIN_STICK.get());
                         pOutput.accept(ModItems.ABILITY_1.get());
                     }).build());
     public static void register(IEventBus eventBus){

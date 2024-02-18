@@ -39,6 +39,9 @@ public class ModItems {
             ()->new GravityWizardStickItem(new Item.Properties().durability(1)));
     public static final RegistryObject<Item>PYROMANCER_STICK = ITEMS.register("pyromancer_stick",
             ()->new PyromancerStickItem(new Item.Properties().durability(1)));
+    public static final RegistryObject<Item>ASSASSIN_STICK = ITEMS.register("assassin_stick",
+            ()->new AssassinStickItem(new Item.Properties().durability(1)));
+
     public static final RegistryObject<Item>ABILITY_1 = ITEMS.register("ability_1",
             ()->new Ability1(new Item.Properties().durability(1)));
     public static void register(IEventBus eventBus){

@@ -38,11 +38,13 @@ public class ThirstHUDOverlay {
         //poseStack.blit(EMPTY_THIRST,x-94,y-54,0,0,12,12,12,12);
         poseStack.drawString(f,"TEST",x,y-100,16711680);
         poseStack.drawString(f,"Thirst: " + c,x/6,y/6,16711680);
-        poseStack.drawString(f,"Cooldown 1: " + roundToTwo(c1),x/6,2*y/6,16711680);
-        poseStack.drawString(f,"Cooldown 2: " + roundToTwo(c2),x/6,3*y/6,16711680);
-        poseStack.drawString(f,"Cooldown 3: " + roundToTwo(c3),x/6,4*y/6,16711680);
-        poseStack.drawString(f,"Cooldown 4: " + roundToTwo(c4),x/6,5*y/6,16711680);
-        poseStack.drawString(f,"Bonus Damage: " +roundToTwo(bA),2*x/6,y/6,16711680);
+        poseStack.drawString(f,"Cooldown 1: " + roundToTwo(c1),x/6,2*y/8,16711680);
+        poseStack.drawString(f,"Cooldown 2: " + roundToTwo(c2),x/6,3*y/8,16711680);
+        poseStack.drawString(f,"Cooldown 3: " + roundToTwo(c3),x/6,4*y/8,16711680);
+        poseStack.drawString(f,"Cooldown 4: " + roundToTwo(c4),x/6,5*y/8,16711680);
+        poseStack.drawString(f,"Empowered:" + ClientThirstData.getEmpowered(),x/6,6*y/8,16711680);
+        poseStack.drawString(f,"Empowered:" + ClientThirstData.getDazed(),x/6,7*y/8,16711680);
+        poseStack.drawString(f,"Bonus Damage: " +roundToTwo(bA),2*x/6,y/8,16711680);
 
         for(int i=0;i<10;i++){
             //guiGraphics.blit(FILLED_THIRST,x,y,0,0,100,100);

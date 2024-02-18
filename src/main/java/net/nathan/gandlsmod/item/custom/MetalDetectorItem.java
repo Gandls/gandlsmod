@@ -118,16 +118,17 @@ public class MetalDetectorItem extends Item {
         }
         */
         pPlayer.getCapability(PlayerThirstProvider.PLAYER_THIRST).ifPresent(thirst -> {
-            if(thirst.getpIndex() == 1){
+
+            if(thirst.getpIndex() != 1){
                 pLevel.playSound(pPlayer,pPlayer.blockPosition(), SoundEvents.NOTE_BLOCK_CHIME.get(), SoundSource.BLOCKS, 1f, 1f);
 
+                /*
                 pPlayer.setDeltaMovement(
                         new Vec3(
                                 pPlayer.getLookAngle().x * 10f,
                                 pPlayer.getLookAngle().y*10f,
                                 pPlayer.getLookAngle().z*10f) );
-
-
+                 */
 
                 /*
                 X + Y + Z = player x,y,z
@@ -146,7 +147,7 @@ public class MetalDetectorItem extends Item {
                  */
 
                 //This code sort of works
-                /*
+
                 Vec3 lA = pPlayer.getLookAngle().normalize();
                 //Since this is a vector known to be perpendicular (it's dot product with lA is zero)
                 //It will be rotated around the LA to create a ring
@@ -164,7 +165,7 @@ public class MetalDetectorItem extends Item {
                             rot.z);
                 }
 
-                 */
+
 
 
             }else {

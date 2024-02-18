@@ -13,6 +13,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.nathan.gandlsmod.GandlsMod;
+import net.nathan.gandlsmod.block.custom.CrumbleBlock;
 import net.nathan.gandlsmod.block.custom.SoundBlock;
 import net.nathan.gandlsmod.item.ModItems;
 
@@ -40,6 +41,10 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> SOUND_BLOCK = registerBlock("sound_block",
             ()-> new SoundBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
+    //Higher "Friction" means LESS friction, Friction below 0.4 will actually ACCELERATE the player moving on it
+    public static final RegistryObject<Block> CRUMBLE_BLOCK = registerBlock("crumble_block",
+            ()-> new CrumbleBlock(BlockBehaviour.Properties.copy(Blocks.FROSTED_ICE).friction(0.4f)));
+
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block){
         RegistryObject<T>toReturn = BLOCKS.register(name,block);
         registerBlockItem(name,toReturn);

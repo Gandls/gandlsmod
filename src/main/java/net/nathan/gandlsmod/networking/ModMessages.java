@@ -7,10 +7,7 @@ import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.simple.SimpleChannel;
 import net.nathan.gandlsmod.GandlsMod;
-import net.nathan.gandlsmod.networking.packet.Ability2Packet;
-import net.nathan.gandlsmod.networking.packet.C2SPacket;
-import net.nathan.gandlsmod.networking.packet.DrinkWaterPacket;
-import net.nathan.gandlsmod.networking.packet.ThirstDataSyncSToC;
+import net.nathan.gandlsmod.networking.packet.*;
 
 import javax.print.DocFlavor;
 import javax.swing.*;
@@ -46,10 +43,26 @@ public class ModMessages {
                 .encoder(Ability2Packet::toBytes)
                 .consumerMainThread(Ability2Packet::handle)
                 .add();
+        net.messageBuilder(Ability3Packet.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(Ability3Packet::new)
+                .encoder(Ability3Packet::toBytes)
+                .consumerMainThread(Ability3Packet::handle)
+                .add();
+        net.messageBuilder(UltimatePacket.class,id(),NetworkDirection.PLAY_TO_SERVER)
+                        .decoder(UltimatePacket::new)
+                                .encoder(UltimatePacket::toBytes)
+                                        .consumerMainThread(UltimatePacket::handle)
+                                                .add();
+
         net.messageBuilder(ThirstDataSyncSToC.class, id(), NetworkDirection.PLAY_TO_CLIENT)
                 .decoder(ThirstDataSyncSToC::new)
                 .encoder(ThirstDataSyncSToC::toBytes)
                 .consumerMainThread(ThirstDataSyncSToC::handle)
+                .add();
+        net.messageBuilder(FireballRotPacket.class, id(), NetworkDirection.PLAY_TO_SERVER)
+                .decoder(FireballRotPacket::new)
+                .encoder(FireballRotPacket::toBytes)
+                .consumerMainThread(FireballRotPacket::handle)
                 .add();
 
     }

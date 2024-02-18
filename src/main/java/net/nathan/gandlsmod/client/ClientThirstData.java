@@ -4,7 +4,9 @@ public class ClientThirstData {
     private static int playerThirst,pIndex;
     private static float c1,c2,c3,c4,bonusDamage,check;
 
-    public static void set(int thirst,float c1,float c2,float c3, float c4, int pIndex,float bonusDamage,float check){
+    private static boolean empowered,dazed;
+
+    public static void set(int thirst,float c1,float c2,float c3, float c4, int pIndex,float bonusDamage,float check, boolean empowered, boolean dazed){
         ClientThirstData.playerThirst = thirst;
         ClientThirstData.c1 = c1;
         ClientThirstData.c2 = c2;
@@ -13,6 +15,8 @@ public class ClientThirstData {
         ClientThirstData.pIndex = pIndex;
         ClientThirstData.bonusDamage = bonusDamage;
         ClientThirstData.check = check;
+        ClientThirstData.empowered = empowered;
+        ClientThirstData.dazed = dazed;
     }
 
 
@@ -45,4 +49,7 @@ public class ClientThirstData {
     }
 
     public static float getCheck(){return check;}
+
+    public static boolean getEmpowered(){return empowered;}
+    public static boolean getDazed(){return dazed;}
 }

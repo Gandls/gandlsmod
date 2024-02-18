@@ -1,7 +1,10 @@
 package net.nathan.gandlsmod.event;
 
+import com.mojang.blaze3d.shaders.Effect;
 import com.mojang.blaze3d.shaders.FogShape;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.commands.arguments.EntityAnchorArgument;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageSources;
@@ -11,7 +14,14 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.projectile.LargeFireball;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.AirBlock;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.client.event.MovementInputUpdateEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.ViewportEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -19,14 +29,13 @@ import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
-import net.minecraftforge.event.entity.living.LivingDamageEvent;
-import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
-import net.minecraftforge.event.entity.living.LivingKnockBackEvent;
+import net.minecraftforge.event.entity.ProjectileImpactEvent;
+import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.nathan.gandlsmod.GandlsMod;
 import net.nathan.gandlsmod.client.ClientThirstData;
+import net.nathan.gandlsmod.effects.ModEffects;
 import net.nathan.gandlsmod.networking.ModMessages;
 import net.nathan.gandlsmod.networking.packet.ThirstDataSyncSToC;
 import net.nathan.gandlsmod.thirst.PlayerThirst;
@@ -41,30 +50,35 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
+import org.jetbrains.annotations.NotNull;
 import org.jline.utils.Log;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 
 @Mod.EventBusSubscriber(modid = GandlsMod.MOD_ID)
 public class ModEvents {
 
+
     @SubscribeEvent
     public static void renderP(RenderLivingEvent<Player, EntityModel<Player>> event){
 
+        //RENDERING IS CLIENT SIDE!! USE CLIENT THIRST DATA
         //Do this in ADDITION to the potion effect to not render armor/items
-
         if(event.getEntity() instanceof Player ){
             //If you are rendering a player
             event.getEntity().getCapability(PlayerThirstProvider.PLAYER_THIRST).ifPresent(thirst -> {
                 //If that player has a class
-                if(thirst.getpIndex() == 8){
+                if(ClientThirstData.getPlayerIndex() == 8){
                     //That class is rogue
                     if(event.getEntity().isShiftKeyDown()){
                         //The shift key is down
                         if(thirst.getCooldown((byte) 0) == 0.0f) {
                             //If the player hasn't been damaged recently
-                            event.getEntity().addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 1, 0, false, false));
+                            event.getEntity().addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 10, 0, false, false));
                             event.setCanceled(true);
                         }
                     }
@@ -73,8 +87,8 @@ public class ModEvents {
             });
         }
 
-
     }
+
 
 
 
@@ -83,6 +97,25 @@ public class ModEvents {
     //Also note that appropriate resources (like armor durability and absorption extra hearths) have already been consumed.
 @SubscribeEvent
     public static void onDamaged(LivingDamageEvent event){
+
+        if(event.getEntity().getEffect(ModEffects.EVASION.get()) != null){
+            event.getEntity().removeEffect(ModEffects.EVASION.get());
+            event.setCanceled(true);
+            return;
+        }else if(event.getEntity().getEffect(ModEffects.LIMITLESS.get()) != null){
+            if(event.getSource().getDirectEntity() instanceof Projectile){
+                event.getSource().getDirectEntity().kill();
+                event.setCanceled(true);
+            }
+        }else if(event.getEntity().getEffect(ModEffects.DEATHLESS.get()) != null){
+            if(event.getAmount() > event.getEntity().getHealth()){
+                event.getEntity().setHealth(1);
+                event.setCanceled(true);
+            }
+        }
+        if(event.getEntity().getEffect(ModEffects.MARKED.get()) != null){
+            event.setAmount(event.getAmount()*1.5f);
+        }
         //Check if the damaged thing is a player
         //Check if it's a warrior
         //Add to their "bonus damage" stat
@@ -98,6 +131,9 @@ public class ModEvents {
                 event.getEntity().getCapability(PlayerThirstProvider.PLAYER_THIRST).ifPresent(thirst -> {
                     //event.getEntity().sendSystemMessage(Component.literal("I have a class"));
                     if (thirst.getpIndex() == 1) {
+                        if(event.getEntity().getEffect(ModEffects.BESERK.get()) != null){
+                            event.setAmount(event.getAmount() * 1.5f);
+                        }
                         //Warrior
                         //TODO
                         //Warriors should not only gain from fall damage, fix later
@@ -105,7 +141,6 @@ public class ModEvents {
                             //event.getEntity().sendSystemMessage(Component.literal("That class is warrior," + " and the amount of damage I took is " + event.getAmount()));
                             thirst.addBonusDamage(event.getAmount());
                             //event.getEntity().sendSystemMessage(Component.literal("My bonus damage is now: " + thirst.getBonusDamage()));
-
                         }
                     }
                     if(thirst.getpIndex() == 3){
@@ -116,9 +151,8 @@ public class ModEvents {
                     }
                     if(thirst.getpIndex() == 4){
                         //Brawler
-                        event.setCanceled(true);
-                        //For each missing piece of armor, take 10% less damage
-                        event.getEntity().hurt(event.getSource(),event.getAmount() * (1.0f-0.1f*thirst.getCharge()));
+                        event.setAmount(event.getAmount() * (1.0f-0.15f*thirst.getCharge()));
+                        //For each missing piece of armor, take 15% less damage (total 60% naked)
                     }
                     if(thirst.getpIndex() == 5){
                         //Pyromancer
@@ -137,16 +171,14 @@ public class ModEvents {
                     if(thirst.getpIndex() == 7){
                         //Shaman
                         if(thirst.getCooldown((byte) 0) <= 0.0f){
-                            thirst.setCooldown(4.0f,(byte) 0);
                             Entity m = event.getSource().getEntity();
-                            LightningBolt l = new LightningBolt(EntityType.LIGHTNING_BOLT,event.getEntity().level());
-                            l.setPos(m.position());
-                            m.level().addFreshEntity(l);
+                            if(m != null) {
+                                LightningBolt l = new LightningBolt(EntityType.LIGHTNING_BOLT, event.getEntity().level());
+                                l.setPos(m.position());
+                                m.level().addFreshEntity(l);
+                                thirst.setCooldown(4.0f,(byte) 0);
+                            }
                         }
-                    }
-                    if(thirst.getpIndex() == 8){
-                        //Assassin
-                        thirst.setCooldown(0.5f,(byte) 0);
                     }
                     ModMessages.sendToPlayer(new ThirstDataSyncSToC(
                             thirst), ((ServerPlayer) event.getEntity()));
@@ -158,6 +190,7 @@ public class ModEvents {
 
 
 //LivingAttackEvent is fired when a living Entity is attacked (duh)
+    @SubscribeEvent
     public static void onAttacked(LivingAttackEvent event){
         //First, check if the attack came from a player
         /*
@@ -167,6 +200,42 @@ public class ModEvents {
                 event.getAmount()
                 ));
          */
+        Entity s = event.getSource().getEntity();
+        if(event.getEntity().getEffect(ModEffects.DISARM.get()) != null){
+            //If the attacked entity has the disarm effect
+            if(s instanceof Player){
+                ((Player) s).getCooldowns().addCooldown(((Player) s).getMainHandItem().getItem(),400);
+            }
+            event.setCanceled(true);
+        }else{
+            //The target does NOT have a disarming effect
+            if(s instanceof Player){
+                s.getCapability(PlayerThirstProvider.PLAYER_THIRST).ifPresent(thirst -> {
+                    if(thirst.getpIndex() == 1) {
+                        if(((Player) s).getEffect(ModEffects.EXECUTE.get())!=null){
+                            //If the attacker is a warrior with execute active
+                            if(event.getEntity().getHealth() - event.getAmount() <= event.getEntity().getMaxHealth() *0.33f){
+                                //If the attack would put the entity below ~1/3 of its max health, kill it
+                                event.getEntity().kill();
+                                event.setCanceled(true);
+                                //BONUS: Maybe re-up the warriors execute effect?
+                                ((Player) s).addEffect(new MobEffectInstance(ModEffects.EXECUTE.get(),60,0));
+                            }
+                        }
+                    }
+
+                    if(thirst.getpIndex() == 8){
+                        //If it's a rogue, their attacks always poison and slow (very temporarily)
+                        //Poison: 2 seconds
+                        //Slow: 0.2 seconds
+                        event.getEntity().addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,4,0));
+                        event.getEntity().addEffect(new MobEffectInstance(MobEffects.POISON,40,0));
+                    }
+
+
+                });
+            }
+        }
     }
 
 
@@ -174,6 +243,10 @@ public class ModEvents {
     //This event is fired whenever a player attacks an Entity in EntityPlayer#attackTargetEntityWithCurrentItem(Entity).
     @SubscribeEvent
     public static void onAttack(AttackEntityEvent event){
+        //NO MODMESSAGE NECESSARY!
+        //Since the attack itself is a player (and therefore client) sided event
+        //The server version of the player is in agreement
+
         //Check if the player attacking is a warrior
         //Add their bonus damage stat to the attack
         //Reset the bonus damage
@@ -181,9 +254,8 @@ public class ModEvents {
             if(thirst.getpIndex() == 1) {
                 event.getTarget().hurt(event.getEntity().level().damageSources().playerAttack(event.getEntity()), thirst.getBonusDamage());
                 thirst.resetBonusDamage();
-                ModMessages.sendToPlayer(new ThirstDataSyncSToC(
-                        thirst), ((ServerPlayer) event.getEntity()));
             }
+
             //If the player is a brawler
             if(thirst.getpIndex() == 4){
                 //If their mainhand is empty
@@ -191,16 +263,91 @@ public class ModEvents {
                     if(event.getTarget() instanceof LivingEntity) {
                         //Cancel the original attack
                         event.setCanceled(true);
-                        //Deal void damage
-                        event.getTarget().hurt(event.getEntity().level().damageSources().fellOutOfWorld(), 3.0f * thirst.getCharge() * 1.5f);
-                        //Apply knockback (must cast to living entity because not all entity types take knockback)
-                        ((LivingEntity) event.getTarget()).knockback(
-                                1+0.5*thirst.getCharge(),
-                                -event.getEntity().getLookAngle().x,
-                                -event.getEntity().getLookAngle().z);
+
+                        //If Empowered:
+                        //Against Mobs: Slowness, Mining Fatigue, Weakness
+                        //Against Players: Nausea, Mining Fatigue, Low FOV, Low Sensitivity (Use an on/off bool + timer)
+
+                        thirst.getEmpowered();
+
+                        if(thirst.getEmpowered()) {
+                            if(event.getTarget() instanceof Player) {
+                                ((LivingEntity) event.getTarget()).addEffect(new MobEffectInstance(ModEffects.DAZE.get(), 100));
+                                ((LivingEntity) event.getTarget()).addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 200, 2));
+                                ((LivingEntity) event.getTarget()).addEffect(new MobEffectInstance(MobEffects.CONFUSION, 100, 0));
+                                //Deal void damage
+                                event.getTarget().hurt(event.getEntity().level().damageSources().fellOutOfWorld(), 5.0f * thirst.getCharge() * 2.0f);
+                                //Apply knockback (must cast to living entity because not all entity types take knockback)
+                                ((LivingEntity) event.getTarget()).knockback(
+                                        1 + 0.8 * thirst.getCharge(),
+                                        -event.getEntity().getLookAngle().x,
+                                        -event.getEntity().getLookAngle().z);
+                                thirst.setEmpowered(false);
+                                thirst.setCooldown(12.0f, (byte) 0);
+                            }else{
+                                ((LivingEntity) event.getTarget()).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100,2));
+                                ((LivingEntity) event.getTarget()).addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 200, 2));
+                                ((LivingEntity) event.getTarget()).addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0));
+                                event.getTarget().hurt(event.getEntity().level().damageSources().fellOutOfWorld(), 5.0f * thirst.getCharge() * 2.0f);
+                                //Apply knockback (must cast to living entity because not all entity types take knockback)
+                                ((LivingEntity) event.getTarget()).knockback(
+                                        1 + 0.8 * thirst.getCharge(),
+                                        -event.getEntity().getLookAngle().x,
+                                        -event.getEntity().getLookAngle().z);
+                                thirst.setEmpowered(false);
+                                thirst.setCooldown(12.0f, (byte) 0);
+                            }
+                        }else {
+                            //Deal void damage
+                            event.getTarget().hurt(event.getEntity().level().damageSources().fellOutOfWorld(), 3.0f * thirst.getCharge() * 1.5f);
+                            //Apply knockback (must cast to living entity because not all entity types take knockback)
+                            ((LivingEntity) event.getTarget()).knockback(
+                                    1 + 0.5 * thirst.getCharge(),
+                                    -event.getEntity().getLookAngle().x,
+                                    -event.getEntity().getLookAngle().z);
+                        }
+
+
+
                     }
                 };
                 }
+            if(thirst.getpIndex() == 8){
+                Level pLevel = event.getEntity().level();
+                event.getEntity().sendSystemMessage(Component.literal("I'm registering a rogue attack"));
+                if(event.getEntity().getEffect(ModEffects.KNIVES.get()) != null){
+                    event.getEntity().sendSystemMessage(Component.literal("Rogue has effect"));
+                    //If the rogue has Night of Knives active, their attacks should teleport them within 3m of the target
+                    BlockPos p = event.getTarget().getOnPos();
+                    BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
+                    Iterable<BlockPos> a = BlockPos.betweenClosed(p.offset(-3, -1, -3), p.offset(3, 2, 3));
+                    boolean x =false;
+                    for(BlockPos blockpos : a) {
+                        if(!x) {
+                            if (blockpos.closerToCenterThan(event.getTarget().position(), (double) 3)) {
+                                event.getEntity().sendSystemMessage(Component.literal("Checking block close to enemy"));
+                                //If the blocks real distance to the target is less than 3
+                                blockpos$mutableblockpos.set(blockpos.getX(), blockpos.getY(), blockpos.getZ());
+                                BlockState blockstate1 = event.getEntity().level().getBlockState(blockpos$mutableblockpos);
+                                if (blockstate1.getBlock().isValidSpawn(blockstate1, pLevel, blockpos, SpawnPlacements.Type.ON_GROUND, EntityType.PLAYER)) {
+                                    //If the block is a valid spawn point (solid + air above)
+                                    if (!blockpos.closerToCenterThan(event.getEntity().position(), 2.8f)) {
+                                        if(pLevel.getBlockState(blockpos.above()).is(Blocks.AIR) && pLevel.getBlockState(blockpos.above().above()).is(Blocks.AIR)){
+                                            event.getEntity().sendSystemMessage(Component.literal("Teleporting"));
+                                            //If the block is not within 2 blocks of the attacker
+                                            //Teleport
+                                            x = true;
+                                            event.getEntity().teleportTo(blockpos.getX(),blockpos.getY()+1f,blockpos.getZ());
+                                            event.getEntity().lookAt(EntityAnchorArgument.Anchor.EYES,event.getTarget().getEyePosition());
+                                        }
+                                    }
+                                }
+
+                            }
+                        }
+                    }
+                }
+            }
             });
     }
 
@@ -244,6 +391,32 @@ public class ModEvents {
         event.register(PlayerThirst.class);
     }
 
+    @SubscribeEvent
+    public static void onProjectileImpact(ProjectileImpactEvent event){
+
+
+        Projectile p = event.getProjectile();
+        //p.sendSystemMessage(Component.literal("Impact happened"));
+        if(p instanceof LargeFireball){
+            //p.sendSystemMessage(Component.literal("I am a large fireball"));
+            if(p.getOwner() instanceof Player){
+                //p.sendSystemMessage(Component.literal("My owner is a player"));
+                p.getOwner().sendSystemMessage(Component.literal("My fireball exploded"));
+                    //If the projectiles owners camera is the projectile itself, then set check to 0
+                    //since the fireball is no longer active and shouldn't respond to movement inputs anymore
+                    p.getOwner().getCapability(PlayerThirstProvider.PLAYER_THIRST).ifPresent(thirst -> {
+                        if(thirst.getCheck() > 0.0f) {
+                            thirst.setCheck(0.0f);
+                            ModMessages.sendToPlayer(new ThirstDataSyncSToC(
+                                    thirst), (ServerPlayer) p.getOwner());
+                        }
+                    });
+                }
+            }
+
+
+
+        }
 
     @SubscribeEvent
     public static void onEquipChange(LivingEquipmentChangeEvent event){
@@ -286,6 +459,7 @@ public class ModEvents {
             //event.player.setYRot(event.player.getYRot() + 9.0f);
             pPlayer.getCapability(PlayerThirstProvider.PLAYER_THIRST).ifPresent(thirst -> {
             if(ClientThirstData.getPlayerIndex() == 1){
+                //This is a warrior spinning
                 if(ClientThirstData.getCheck() > 0.0f){
                     pPlayer.setYRot(pPlayer.getYRot() + 18.0f);
                 }
@@ -299,6 +473,8 @@ public class ModEvents {
             pPlayer.getCapability(PlayerThirstProvider.PLAYER_THIRST).ifPresent(thirst -> {
                 //Reduce all cooldowns
                 thirst.minusAll(0.025f);
+
+
 
 
                 //If the player is a warrior
@@ -338,7 +514,44 @@ public class ModEvents {
                 if(thirst.getpIndex() == 4){
                     //BRAWLER
 
-                    byte sum = 0;
+                }
+                if(thirst.getpIndex() == 5){
+                    //PYROMANCER
+                    //For this, we need to ge the camera of the player
+                    //Unfortunately playerTickEvents only have the generic player passed in (since this ticks on both client AND server sides)
+                    //The generic player class does not the camera entity (the thing the players view is rendered through, usually the player entity)
+                    //The ServerPlayer class does, but we can't simply cast from player to ServerPlayer because that's actually creating a NEW serverplayer without the info
+                    //we're looking for, so we need to query the server to get the real ServerPlayer version of the player, get its camera, then apply movement to it
+
+                    ServerPlayer sp = pPlayer.getServer().getPlayerList().getPlayer(pPlayer.getUUID());
+                    Entity c = sp.getCamera();
+                    if(c instanceof LargeFireball){
+                        //This means the player is controlling the fireball
+                        //Get the players Look Angle
+                        /*
+                        Vec3 LA = pPlayer.getLookAngle();
+                        float y = pPlayer.getYRot();
+                        float x = pPlayer.getXRot();
+                        pPlayer.sendSystemMessage(Component.literal("current LA: " + LA));
+                        pPlayer.sendSystemMessage(Component.literal("current X: " + x));
+                        pPlayer.sendSystemMessage(Component.literal("current LA: " + y));
+
+                         */
+                        //Vec3 la = ((LargeFireball) c).getOwner().getLookAngle();
+                        //pPlayer.sendSystemMessage(Component.literal("current pos: " + pPlayer.position()));
+                        if(thirst.getCheck() <= 0.0f){
+                            sp.setCamera(pPlayer);
+                        }
+                    }
+                }
+                if(thirst.getpIndex() == 8){
+                    if(pPlayer.isShiftKeyDown()){
+                        //The shift key is down
+                        if(thirst.getCooldown((byte) 0) == 0.0f) {
+                            //If the player hasn't been damaged recently
+                            pPlayer.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 4, 0, false, false));
+                        }
+                    }
                 }
 
                 //event.player.sendSystemMessage(Component.literal("Check: " + thirst.getCheck()));
@@ -365,7 +578,6 @@ public class ModEvents {
 
     @SubscribeEvent
     public void onServerTick(TickEvent.ServerTickEvent event){
-
     }
 
     @SubscribeEvent
@@ -379,4 +591,6 @@ public class ModEvents {
             }
         }
     }
+
+
 }

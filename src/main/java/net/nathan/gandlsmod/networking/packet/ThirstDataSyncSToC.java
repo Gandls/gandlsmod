@@ -18,9 +18,10 @@ import java.util.function.Supplier;
 public class ThirstDataSyncSToC {
     private final int thirst,pIndex;
     private final float c1,c2,c3,c4,bonusDamage,check;
+    private final boolean emp,dazed;
     private static final String MESSAGE_DRINK_WATER = "message.gandlsmod.drink_water";
     private static final String MESSAGE_NO_WATER = "message.gandlsmod.no_water";
-    public ThirstDataSyncSToC(int thirst, float c1, float c2, float c3, float c4, int pIndex,float bonusDamage,float check){
+    public ThirstDataSyncSToC(int thirst, float c1, float c2, float c3, float c4, int pIndex,float bonusDamage,float check, boolean emp, boolean dazed){
     this.thirst = thirst;
     this.c1 = c1;
     this.c2 = c2;
@@ -29,9 +30,12 @@ public class ThirstDataSyncSToC {
     this.pIndex = pIndex;
     this.bonusDamage = bonusDamage;
     this.check = check;
+    this.emp = emp;
+    this.dazed = dazed;
     }
 
     public ThirstDataSyncSToC(PlayerThirst p){
+
         this.c1 = p.getCooldown((byte) 0);
         this.c2 = p.getCooldown((byte) 1);
         this.c3 = p.getCooldown((byte) 2);
@@ -40,6 +44,8 @@ public class ThirstDataSyncSToC {
         this.thirst = p.getThirst();
         this.bonusDamage = p.getBonusDamage();
         this.check = p.getCheck();
+        this.emp = p.getEmpowered();
+        this.dazed = p.getDazed();
     }
 
     public ThirstDataSyncSToC(FriendlyByteBuf buf){
@@ -52,6 +58,8 @@ public class ThirstDataSyncSToC {
         this.pIndex = buf.readInt();
         this.bonusDamage = buf.readFloat();
         this.check = buf.readFloat();
+        this.emp = buf.readBoolean();
+        this.dazed = buf.readBoolean();
     }
 
     public void toBytes(FriendlyByteBuf buf){
@@ -64,13 +72,15 @@ public class ThirstDataSyncSToC {
         buf.writeInt(pIndex);
         buf.writeFloat(bonusDamage);
         buf.writeFloat(check);
+        buf.writeBoolean(emp);
+        buf.writeBoolean(dazed);
     }
 
     public boolean handle(Supplier<NetworkEvent.Context> supplier){
         NetworkEvent.Context context= supplier.get();
         context.enqueueWork(() -> {
             //HERE WE ARE ON THE CLIENT
-            ClientThirstData.set(thirst,c1,c2,c3,c4,pIndex,bonusDamage,check);
+            ClientThirstData.set(thirst,c1,c2,c3,c4,pIndex,bonusDamage,check,emp,dazed);
 
         });
         return true;
