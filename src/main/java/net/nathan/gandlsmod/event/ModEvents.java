@@ -35,6 +35,7 @@ import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.nathan.gandlsmod.GandlsMod;
 import net.nathan.gandlsmod.client.ClientThirstData;
+import net.nathan.gandlsmod.effects.GetOutEffectInstance;
 import net.nathan.gandlsmod.effects.ModEffects;
 import net.nathan.gandlsmod.networking.ModMessages;
 import net.nathan.gandlsmod.networking.packet.ThirstDataSyncSToC;
@@ -62,6 +63,16 @@ import java.util.ListIterator;
 @Mod.EventBusSubscriber(modid = GandlsMod.MOD_ID)
 public class ModEvents {
 
+    @SubscribeEvent
+    public static void removeEffect(MobEffectEvent.Expired event){
+        event.getEntity().sendSystemMessage(Component.literal("Entered MobEffectEvent Expiration"));
+            MobEffectInstance s = event.getEffectInstance();
+            if(s != null){
+                if(s instanceof GetOutEffectInstance){
+                    ((GetOutEffectInstance) s).sendBack(event.getEntity());
+                }
+            }
+    }
 
     @SubscribeEvent
     public static void renderP(RenderLivingEvent<Player, EntityModel<Player>> event){
@@ -359,9 +370,6 @@ public class ModEvents {
             }
         }
     }
-    @SubscribeEvent
-    public static void newEntityAttribute(EntityAttributeModificationEvent event){
-    }
 
 
     @SubscribeEvent
@@ -574,10 +582,6 @@ public class ModEvents {
                         thirst), ((ServerPlayer) event.player));
             });
         }
-    }
-
-    @SubscribeEvent
-    public void onServerTick(TickEvent.ServerTickEvent event){
     }
 
     @SubscribeEvent

@@ -3,7 +3,6 @@ package net.nathan.gandlsmod.effects;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -73,6 +72,15 @@ public class ModEffects {
 
     public static final RegistryObject<MobEffect> KNIVES = MOB_EFFECTS.register("night_of_knives",
             () -> new NightOfKnivesEffect(MobEffectCategory.BENEFICIAL,3124678));
+
+    public static final RegistryObject<MobEffect> GETOUT = MOB_EFFECTS.register("get_out",
+            () -> new GetOutEffect(MobEffectCategory.BENEFICIAL,3124678));
+
+    public static final RegistryObject<MobEffect> DEAF = MOB_EFFECTS.register("deaf",
+            () -> new DeafEffect(MobEffectCategory.BENEFICIAL,3124678));
+
+    public static final RegistryObject<MobEffect> SCARYEXPRESSION = MOB_EFFECTS.register("scary_expression",
+            () -> new ScaryExpressionEffect(MobEffectCategory.NEUTRAL,3124678));
 
     public static void register(IEventBus eventBus){
         MOB_EFFECTS.register(eventBus);

@@ -142,6 +142,17 @@ public class DrinkWaterPacket {
                         playerThirst.setCooldown(4.0f, (byte) 0);
                     }
                 }
+                if(playerThirst.getpIndex() == 6){
+                    if(playerThirst.getCooldown((byte) 0 ) == 0.0f) {
+                        WitherSkull WS = new WitherSkull(pLevel, player, 0.0f, 0.0f, 0.0f);
+                        WS.moveTo(player.getX(), player.getY() + 1.5, player.getZ());
+                        WS.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.5F, 1.0F);
+                        WS.setDeltaMovement(player.getLookAngle().x * 2f, player.getLookAngle().y * 2f, player.getLookAngle().z * 2f);
+                        pLevel.addFreshEntity(WS);
+                        playerThirst.setCooldown(8.0f, (byte) 0);
+                    }
+                }
+
                 //If player is a shaman
                 if(playerThirst.getpIndex() == 7){
                     //And they're ability is not on cooldown

@@ -93,7 +93,7 @@ public class Ability2Packet {
                     playerThirst.setCooldown(15.0f,(byte) 1);
                 }
                 if(playerThirst.getpIndex() == 3) {
-                    if(playerThirst.getCooldown((byte) 0) <= 0.0f){
+                    if(playerThirst.getCooldown((byte) 1) <= 0.0f){
                         //This is a Gravity Wizard using their "Pull" projectile
                         Chicken s = new Chicken(EntityType.CHICKEN,pLevel);
                         s.moveTo(player.getX(),player.getY()+1.5,player.getZ());
@@ -170,8 +170,11 @@ public class Ability2Packet {
                 }
 
                 if(playerThirst.getpIndex() == 6){
-                    //A warlock using dragons breath
-                    player.addEffect(new MobEffectInstance(ModEffects.DRAGONBREATH.get(),200,0));
+                    if(playerThirst.getCooldown((byte) 2) == 0) {
+                        //A warlock using dragons breath
+                        player.addEffect(new MobEffectInstance(ModEffects.DRAGONBREATH.get(), 200, 0));
+                        playerThirst.setCooldown(60, (byte) 2);
+                    }
                 }
 
                 if(playerThirst.getpIndex() == 7){

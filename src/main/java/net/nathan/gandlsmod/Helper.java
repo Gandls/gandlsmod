@@ -20,5 +20,34 @@ public class Helper {
         return total;
     }
 
+    public static double angleBetween(Vec3 a, Vec3 b){
+
+        /*
+        double x = a.x * b.x;
+        double y = a.z * b.z;
+        double z = a.z * b.z;
+
+        double xaSqr = Math.pow(a.x,2);
+        double yaSqr = Math.pow(a.y,2);
+        double zaSqr = Math.pow(a.z,2);
+
+        double AsqRoot = Math.sqrt(Math.pow(a.x,2)+Math.pow(a.y,2)+Math.pow(a.z,2));
+
+        double xbSqr = Math.pow(b.x,2);
+        double ybSqr = Math.pow(b.y,2);
+        double zbSqr = Math.pow(b.z,2);
+
+        double BsqRoot = Math.sqrt(Math.pow(b.x,2)+Math.pow(b.y,2)+Math.pow(b.z,2));
+
+         */
+
+        double roots = Math.sqrt(Math.pow(a.x,2)+Math.pow(a.y,2)+Math.pow(a.z,2)) * Math.sqrt(Math.pow(b.x,2)+Math.pow(b.y,2)+Math.pow(b.z,2));
+        double sum  = a.x * b.x+a.z * b.z+a.z * b.z;
+
+        return Math.acos(sum/roots);
+
+
+    }
+
 
 }

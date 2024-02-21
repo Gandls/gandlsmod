@@ -1,5 +1,6 @@
 package net.nathan.gandlsmod.networking.packet;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -16,16 +17,22 @@ import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.animal.Wolf;
 import net.minecraft.world.entity.projectile.LargeFireball;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkEvent;
 import net.nathan.gandlsmod.effects.EightGatesEffect;
 import net.nathan.gandlsmod.effects.EightGatesInstance;
+import net.nathan.gandlsmod.effects.GetOutEffectInstance;
 import net.nathan.gandlsmod.effects.ModEffects;
 import net.nathan.gandlsmod.networking.ModMessages;
 import net.nathan.gandlsmod.thirst.PlayerThirstProvider;
 import net.nathan.gandlsmod.worldgen.dimension.ModDimensions;
+import net.nathan.gandlsmod.worldgen.portal.ModPortal;
 
+import java.awt.*;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -58,29 +65,59 @@ public class UltimatePacket {
                 if(playerThirst.getpIndex() == 1){
                     if(playerThirst.getCooldown((byte) 3) <= 0){
                         player.addEffect(new MobEffectInstance(ModEffects.EXECUTE.get(),140,0));
-                        //playerThirst.setCooldown(3600,(byte) 3);
+                        playerThirst.setCooldown(180,(byte) 3);
                     }
                 }
                 if(playerThirst.getpIndex() == 3) {
                     //Change dimension
                     player.sendSystemMessage(Component.literal("Attempting dimension change"));
                     if (player.level() instanceof ServerLevel serverlevel) {
-                        player.sendSystemMessage(Component.literal("This is a server level"));
                         MinecraftServer minecraftserver = serverlevel.getServer();
-                        ResourceKey<Level> resourcekey = player.level().dimension() == ModDimensions.GANDLSDIM_LEVEL_KEY ?
-                                Level.OVERWORLD : ModDimensions.GANDLSDIM_LEVEL_KEY;
+                        ResourceKey<Level> resourcekey = ModDimensions.GANDLSDIM_LEVEL_KEY;
 
-
-                        player.sendSystemMessage(Component.literal("Player is in overworld: " + (player.level().dimension() == Level.OVERWORLD)));
-                        //PROBLEM: There seems to be no level associated with the resource key
-                        //Solutions: Resource Key is wrong (unlikely), Level isn't ever generated (why?)
                         ServerLevel portalDimension = minecraftserver.getLevel(resourcekey);
+                        BlockPos portalPlace = player.getOnPos();
+                        List<Entity> b = pLevel.getEntities(player,player.getBoundingBox().inflate(20));
+                        if(portalDimension != null) {
+                            for (Entity s : b) {
+                                if(s instanceof LivingEntity) {
+
+                                    ((LivingEntity) s).addEffect(new GetOutEffectInstance(ModEffects.GETOUT.get(),400,0,s.getOnPos(), s.level().dimension()));
+
+                                    portalPlace = s.getOnPos();
+                                    portalPlace = portalPlace.offset(0, -portalPlace.getY() + 16, 0);
+                                    s.changeDimension(portalDimension, new ModPortal(portalPlace, true));
+                                    s.teleportTo(portalPlace.getX(), portalPlace.getY(), portalPlace.getZ());
+                                }
+                            }
+                        }
+                        portalPlace = player.getOnPos();
+
                         if (portalDimension != null && !player.isPassenger()) {
-                            player.sendSystemMessage(Component.literal("Portal dimension is Not NULL"));
                             if (resourcekey == ModDimensions.GANDLSDIM_LEVEL_KEY) {
-                                player.changeDimension(portalDimension);
+                                portalPlace = portalPlace.offset(0,-portalPlace.getY()+16,0);
+                                player.addEffect(new GetOutEffectInstance(ModEffects.GETOUT.get(),400,0,player.getOnPos(), player.level().dimension(), false));
+                                player.changeDimension(portalDimension, new ModPortal(portalPlace,true));
+                                //Adding this line works (but it shouldn't....whatever)
+                                player.teleportTo(portalPlace.getX(),portalPlace.getY(),portalPlace.getZ());
+                                playerThirst.setCooldown(600,(byte) 3);
                             } else {
-                                player.changeDimension(portalDimension);
+                                //This is for coming back out, which is now handled by the GetOutEffectInstance
+                                /*
+                                player.changeDimension(portalDimension, new ModPortal(portalPlace,false));
+                                boolean x = false;
+                                int y = 255;
+                                for(int i = 255;i > 0;i--){
+                                    if(!x){
+                                        BlockState a = portalDimension.getBlockState(new BlockPos(portalPlace.getX(),i,portalPlace.getZ()));
+                                        x = !a.is(Blocks.AIR);
+                                        y= i;
+                                    }
+                                }
+                                player.teleportTo(portalPlace.getX(),y,portalPlace.getZ());
+
+                                 */
+
                             }
                         }
                     }
@@ -104,23 +141,32 @@ public class UltimatePacket {
                         player.addEffect(new MobEffectInstance(ModEffects.BREATHEFIREBALL.get(),140,0));
                         player.addEffect(new MobEffectInstance(MobEffects.LEVITATION,140,0));
 
-                        //playerThirst.setCooldown(3600,(byte) 3);
+                        playerThirst.setCooldown(180,(byte) 3);
+                    }
+                }
+                if(playerThirst.getpIndex() == 6){
+                    if(playerThirst.getCooldown((byte) 3) <= 0){
+                        player.addEffect(new MobEffectInstance(ModEffects.SCARYEXPRESSION.get(),300,0));
+
+                        playerThirst.setCooldown(180,(byte) 3);
                     }
                 }
                 if(playerThirst.getpIndex() == 7){
-                    if(playerThirst.getCooldown((byte) 3) == 0){
+                    if(playerThirst.getCheck() == 0){
                         Wolf w = new Wolf(EntityType.WOLF,pLevel);
                         w.setTame(true);
                         w.setOwnerUUID(player.getUUID());
                         w.addEffect(new MobEffectInstance(ModEffects.PINGDEATHLESS.get(),300,0));
                         w.addEffect(new MobEffectInstance(MobEffects.REGENERATION,300,10));
                         pLevel.addFreshEntity(w);
+                        playerThirst.setCheck(180);
                     }
                 }
                 if(playerThirst.getpIndex() == 8){
                     if(playerThirst.getCooldown((byte) 3) == 0){
                         player.addEffect(new MobEffectInstance(ModEffects.KNIVES.get(),200,0));
                     }
+                    playerThirst.setCooldown(240,(byte) 3);
                 }
 
 
