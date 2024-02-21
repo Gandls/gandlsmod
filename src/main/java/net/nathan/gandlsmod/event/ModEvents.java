@@ -374,9 +374,23 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void onPlayerCloned(PlayerEvent.Clone event) {
-        event.getOriginal().sendSystemMessage(Component.literal("TestDeath"));
         if(event.isWasDeath()) {
             event.getOriginal().sendSystemMessage(Component.literal("I know it was a death"));
+            event.getOriginal().reviveCaps();
+            event.getOriginal().getCapability(PlayerThirstProvider.PLAYER_THIRST).ifPresent(oldStore -> {
+                //event.getOriginal().sendSystemMessage(Component.literal("I recognize the old Player Thirst"));
+                //event.getOriginal().sendSystemMessage(Component.literal("It's thirst was: " + oldStore.getThirst()));
+                event.getEntity().getCapability(PlayerThirstProvider.PLAYER_THIRST).ifPresent(newStore -> {
+                    //event.getOriginal().sendSystemMessage(Component.literal("I recognize the new Player Thirst"));
+                    //event.getOriginal().sendSystemMessage(Component.literal("It's Thirst is: " + newStore.getThirst()));
+                    //event.getOriginal().sendSystemMessage(Component.literal("Old Thirst is: " + oldStore.getThirst()));
+                    newStore.copyFrom(oldStore);
+                    event.getOriginal().sendSystemMessage(Component.literal("I copied old thirst, now new thirst is: " + newStore.getThirst()));
+                    ModMessages.sendToPlayer(new ThirstDataSyncSToC(
+                            newStore), ((ServerPlayer) event.getOriginal()));
+                });
+            });
+        }else{
             event.getOriginal().reviveCaps();
             event.getOriginal().getCapability(PlayerThirstProvider.PLAYER_THIRST).ifPresent(oldStore -> {
                 //event.getOriginal().sendSystemMessage(Component.literal("I recognize the old Player Thirst"));
