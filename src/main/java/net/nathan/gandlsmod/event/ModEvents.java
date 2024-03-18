@@ -124,7 +124,7 @@ public class ModEvents {
                 event.setCanceled(true);
             }
         }
-        if(event.getEntity().getEffect(ModEffects.MARKED.get()) != null){
+        if(event.getEntity().getEffect(ModEffects.MARKED.get()) != null || event.getEntity().getEffect(ModEffects.BESERK.get()) != null){
             event.setAmount(event.getAmount()*1.5f);
         }
         //Check if the damaged thing is a player
@@ -148,7 +148,18 @@ public class ModEvents {
                         //Warrior
                         //TODO
                         //Warriors should not only gain from fall damage, fix later
-                        if(msgId.equals("fall") ) {
+                        if(msgId.equals("fall") ||
+                        msgId.equals("arrow") ||
+                                msgId.equals("explosion") ||
+                                msgId.equals("generic") ||
+                                msgId.equals("indirect_magic") ||
+                                msgId.equals("lightning_bolt") ||
+                                msgId.equals("magic") ||
+                                msgId.equals("mob_attack") ||
+                                msgId.equals("mob_projectile") ||
+                                msgId.equals("player_attack") ||
+                                msgId.equals("unattributed_fireball")
+                        ) {
                             //event.getEntity().sendSystemMessage(Component.literal("That class is warrior," + " and the amount of damage I took is " + event.getAmount()));
                             thirst.addBonusDamage(event.getAmount());
                             //event.getEntity().sendSystemMessage(Component.literal("My bonus damage is now: " + thirst.getBonusDamage()));
@@ -263,7 +274,7 @@ public class ModEvents {
         //Reset the bonus damage
         event.getEntity().getCapability(PlayerThirstProvider.PLAYER_THIRST).ifPresent(thirst -> {
             if(thirst.getpIndex() == 1) {
-                event.getTarget().hurt(event.getEntity().level().damageSources().playerAttack(event.getEntity()), thirst.getBonusDamage());
+                event.getTarget().hurt(event.getEntity().level().damageSources().playerAttack(event.getEntity()), thirst.getBonusDamage() + (float) event.getEntity().getAttribute(Attributes.ATTACK_DAMAGE).getValue());
                 thirst.resetBonusDamage();
             }
 

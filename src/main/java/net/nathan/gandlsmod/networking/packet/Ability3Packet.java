@@ -43,6 +43,10 @@ public class Ability3Packet {
 
                 if(playerThirst.getpIndex() == 1){
                     //Warrior using Beserk
+                    if(playerThirst.getCooldown((byte) 2) == 0) {
+                        player.addEffect(new MobEffectInstance(ModEffects.BESERK.get(), 800, 0));
+                        playerThirst.setCooldown(180, (byte) 2);
+                    }
                 }
                 if(playerThirst.getpIndex() == 3){
                     if(playerThirst.getCooldown((byte) 2) == 0){

@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
+  "category": "redstone",
   "key": {
     "i": {
       "item": "minecraft:stick"
@@ -15,7 +15,7 @@
     "iii"
   ],
   "result": {
-    "item": "gandlsmod:priest_stick"
+    "item": "gandlsmod:shaman_stick"
   },
   "show_notification": true
 }

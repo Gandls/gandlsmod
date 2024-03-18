@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
+  "category": "redstone",
   "key": {
     "i": {
       "item": "minecraft:stick"
@@ -11,11 +11,11 @@
   },
   "pattern": [
     "Iii",
-    "i i",
+    "iii",
     "iii"
   ],
   "result": {
-    "item": "gandlsmod:druid_stick"
+    "item": "gandlsmod:assassin_stick"
   },
   "show_notification": true
 }

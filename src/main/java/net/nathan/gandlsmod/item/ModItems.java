@@ -27,8 +27,6 @@ public class ModItems {
 
     public static final RegistryObject<Item>WARRIOR_STICK = ITEMS.register("warrior_stick",
             ()->new WarriorStickItem(new Item.Properties().durability(1)));
-    public static final RegistryObject<Item>PRIEST_STICK = ITEMS.register("priest_stick",
-            ()->new PriestStickItem(new Item.Properties().durability(1)));
     public static final RegistryObject<Item>WARLOCK_STICK = ITEMS.register("warlock_stick",
             ()->new WarlockStickItem(new Item.Properties().durability(1)));
     public static final RegistryObject<Item>SHAMAN_STICK = ITEMS.register("shaman_stick",

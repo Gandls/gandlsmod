@@ -65,32 +65,31 @@ public class Ability2Packet {
             player.getCapability(PlayerThirstProvider.PLAYER_THIRST).ifPresent(playerThirst -> {
 
                 if(playerThirst.getpIndex() == 1){
-                    if(playerThirst.getCooldown((byte) 1) <= 0.0f){
-                        return;
-                    }
-                    //This is a warrior using their second ability (STOMP)
-                    //It should give nearby entities momentum upward, damage a flat amount? variable?
-                    //And give them the slow falling effect for 2 seconds
-                    List<Entity> a = pLevel.getEntities(player,player.getBoundingBox().inflate(6.0f));
-                    for(Entity b:a){
-                        Vec3 res = b.position().subtract(player.position());
-                        double dist = Math.max(1.0,res.length());
+                    if(playerThirst.getCooldown((byte) 1) <= 0.0f) {
+                        //This is a warrior using their second ability (STOMP)
+                        //It should give nearby entities momentum upward, damage a flat amount? variable?
+                        //And give them the slow falling effect for 2 seconds
+                        List<Entity> a = pLevel.getEntities(player, player.getBoundingBox().inflate(6.0f));
+                        for (Entity b : a) {
+                            Vec3 res = b.position().subtract(player.position());
+                            double dist = Math.max(1.0, res.length());
 
-                        //Take the difference in the player to entity position
-                        res = new Vec3(res.x,1.6f,res.y);
-                        //Normalize the y value to 2.0
-                        res = res.scale(6/(dist*dist));
-                        //Reverse scale so closer entities are knocked back more, things 6m away are knocked half their distance
-                        //At 6, the force is scaled to 6/(6*6), meaning 1/6 the distance, so a power of 1
-                        //At 5, its 6/5, so a power of 1.2
-                        //At 4 its 6/4, 1.6
-                        //3:2
-                        //2:3
-                        //1:6
-                        //The scale affects both the horizontal and vertical momentum, so close entities are knocked up high
-                        b.setDeltaMovement(b.getDeltaMovement().add(res));
+                            //Take the difference in the player to entity position
+                            res = new Vec3(res.x, 1.6f, res.y);
+                            //Normalize the y value to 2.0
+                            res = res.scale(6 / (dist * dist));
+                            //Reverse scale so closer entities are knocked back more, things 6m away are knocked half their distance
+                            //At 6, the force is scaled to 6/(6*6), meaning 1/6 the distance, so a power of 1
+                            //At 5, its 6/5, so a power of 1.2
+                            //At 4 its 6/4, 1.6
+                            //3:2
+                            //2:3
+                            //1:6
+                            //The scale affects both the horizontal and vertical momentum, so close entities are knocked up high
+                            b.setDeltaMovement(b.getDeltaMovement().add(res));
+                        }
+                        playerThirst.setCooldown(15.0f, (byte) 1);
                     }
-                    playerThirst.setCooldown(15.0f,(byte) 1);
                 }
                 if(playerThirst.getpIndex() == 3) {
                     if(playerThirst.getCooldown((byte) 1) <= 0.0f){

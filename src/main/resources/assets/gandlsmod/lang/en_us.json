@@ -9,13 +9,19 @@
   "block.gandlsmod.nether_sapphire_ore": "Netherrack Sapphire Ore",
   "item.gandlsmod.metal_detector": "Metal Detector",
   "block.gandlsmod.sound_block": "Sound Block",
+
+  
   "key.category.gandlsmod.gandls": "Gandls Mod",
   "key.gandlsmod.drink_water": "Ability 1",
   "key.gandlsmod.ability_2": "Ability 2",
   "key.gandlsmod.ability_3": "Ability 3",
   "key.gandlsmod.ultimate": "Ultimate",
+
+
   "message.gandlsmod.drink_water": "Water was Drunk",
   "message.gandlsmod.no_water": "No water found",
+
+
   "item.gandlsmod.class_eraser": "Class Eraser",
   "item.gandlsmod.warrior_stick": "Warrior Stick",
   "item.gandlsmod.shaman_stick": "Shaman Stick",
@@ -24,5 +30,33 @@
   "item.gandlsmod.brawler_stick": "Brawler Stick",
   "item.gandlsmod.priest_stick": "Priest Stick",
   "item.gandlsmod.pyromancer_stick": "Pyromancer Stick",
-  "item.gandlsmod.assassin_stick": "Assassin Stick"
+  "item.gandlsmod.assassin_stick": "Assassin Stick",
+
+
+  "effect.gandlsmod.night_of_knives": "Night of Knives",
+  "effect.gandlsmod.daze": "Dazed",
+  "effect.gandlsmod.disarm": "Disarm",
+  "effect.gandlsmod.marked": "Marked for Death",
+  "effect.gandlsmod.evasion": "Evasion",
+  "effect.gandlsmod.earth_shield": "Night of Knives",
+  "effect.gandlsmod.ping_damage": "Aura of Strength",
+  "effect.gandlsmod.ping_health": "Aura of Health",
+  "effect.gandlsmod.ping_resist": "Aura of Resist",
+  "effect.gandlsmod.ping_speed": "Aura of Speed",
+  "effect.gandlsmod.limitless": "Limitless",
+  "effect.gandlsmod.stonewalk": "Stonewalker",
+  "effect.gandlsmod.push": "PUSH",
+  "effect.gandlsmod.pull": "PULL",
+  "effect.gandlsmod.dragon_burn": "Dragon Burn",
+  "effect.gandlsmod.dragon_breath": "Dragon Breath",
+  "effect.gandlsmod.beserk": "Beserk",
+  "effect.gandlsmod.agony": "Agony",
+  "effect.gandlsmod.execute": "Execute",
+  "effect.gandlsmod.breathe_fireball": "Breathe Fireball",
+  "effect.gandlsmod.ping_deathless": "Aura of Deathlessness",
+  "effect.gandlsmod.deathless": "Deathless",
+  "effect.gandlsmod.eight_gates": "Eight Gates",
+  "effect.gandlsmod.deaf": "Deaf",
+  "effect.gandlsmod.get_out": "GET OUT",
+  "effect.gandlsmod.scary_expression": "Scary Expression"
 }

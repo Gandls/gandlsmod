@@ -169,19 +169,22 @@ public class DrinkWaterPacket {
                                 level.addFreshEntity(l);
                             }
                         }
+                        playerThirst.setCooldown(20.0f, (byte) 1);
+
                     }
                 }
 
                 if(playerThirst.getpIndex() == 8){
                     //This is an assassin Marking entities nearby for death
-                    if(playerThirst.getCooldown((byte) 1) == 0){
-                        List<Entity> a = player.level().getEntities(player,player.getBoundingBox().inflate(3.0f));
-                        for(Entity b:a){
+                    if(playerThirst.getCooldown((byte) 1) == 0) {
+                        List<Entity> a = player.level().getEntities(player, player.getBoundingBox().inflate(3.0f));
+                        for (Entity b : a) {
                             //Add the effect
-                            ((LivingEntity) b ).addEffect(new MobEffectInstance(ModEffects.MARKED.get(),120,0));
-                            }
+                            ((LivingEntity) b).addEffect(new MobEffectInstance(ModEffects.MARKED.get(), 120, 0));
                         }
-                    playerThirst.setCooldown(30,(byte) 1);
+
+                        playerThirst.setCooldown(30, (byte) 1);
+                    }
                 }
 
 

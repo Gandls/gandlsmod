@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "redstone",
+  "category": "misc",
   "key": {
     "i": {
       "item": "minecraft:stick"
@@ -10,12 +10,12 @@
     }
   },
   "pattern": [
-    "iii",
-    "  i",
-    "Iii"
+    "Iii",
+    "i i",
+    "iii"
   ],
   "result": {
-    "item": "gandlsmod:warlock_stick"
+    "item": "gandlsmod:gravity_wizard_stick"
   },
   "show_notification": true
 }
