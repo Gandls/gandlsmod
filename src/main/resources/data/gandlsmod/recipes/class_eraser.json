@@ -10,12 +10,12 @@
     }
   },
   "pattern": [
-    "Iii",
     "iii",
+    "i i",
     "iii"
   ],
   "result": {
-    "item": "gandlsmod:assassin_stick"
+    "item": "gandlsmod:class_eraser"
   },
   "show_notification": true
 }

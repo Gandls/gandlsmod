@@ -1,8 +1,12 @@
 package net.nathan.gandlsmod.effects;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.sounds.Sound;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -15,6 +19,7 @@ import net.minecraft.world.level.block.StonecutterBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.nathan.gandlsmod.block.ModBlocks;
+import net.nathan.gandlsmod.sound.ModSounds;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -46,6 +51,10 @@ public class StonewalkEffect extends MobEffect {
                         blockpos$mutableblockpos.set(blockpos.getX(), blockpos.getY(), blockpos.getZ());
                         BlockState blockstate1 = pLevel.getBlockState(blockpos$mutableblockpos);
                         if(blockstate1 == Blocks.LAVA.defaultBlockState()){
+
+                            //CHECK
+                            pLivingEntity.level().playSeededSound(null,blockpos.getX(),blockpos.getY(),blockpos.getZ(),
+                                    SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS,1f,1f,0);
                             pLevel.setBlockAndUpdate(blockpos, blockstate);
                         }
 

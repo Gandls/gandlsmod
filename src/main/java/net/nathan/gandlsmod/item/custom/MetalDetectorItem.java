@@ -32,6 +32,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.nathan.gandlsmod.sound.ModSounds;
 import net.nathan.gandlsmod.thirst.PlayerThirstProvider;
 
 import java.util.Set;
@@ -83,6 +84,9 @@ public class MetalDetectorItem extends Item {
                 if(isValuableBlock(state)){
                     outputValuableCoordinate(positionClicked.below(i),player,state.getBlock());
                     foundBlock = true;
+
+                    pContext.getLevel().playSeededSound(null,positionClicked.getX(),positionClicked.getY(),positionClicked.getZ(),
+                            ModSounds.SPIN_SOUND.get(),SoundSource.BLOCKS,1f,1f,0);
 
                     break;
                 }

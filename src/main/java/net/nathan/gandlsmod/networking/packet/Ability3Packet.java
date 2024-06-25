@@ -3,17 +3,21 @@ package net.nathan.gandlsmod.networking.packet;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.Wolf;
+import net.minecraft.world.entity.monster.ElderGuardian;
+import net.minecraft.world.entity.monster.Guardian;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkEvent;
 import net.nathan.gandlsmod.effects.ModEffectInstance;
 import net.nathan.gandlsmod.effects.ModEffects;
 import net.nathan.gandlsmod.networking.ModMessages;
+import net.nathan.gandlsmod.sound.ModSounds;
 import net.nathan.gandlsmod.thirst.PlayerThirstProvider;
 
 import java.util.List;
@@ -46,11 +50,15 @@ public class Ability3Packet {
                     if(playerThirst.getCooldown((byte) 2) == 0) {
                         player.addEffect(new MobEffectInstance(ModEffects.BESERK.get(), 800, 0));
                         playerThirst.setCooldown(180, (byte) 2);
+                        pLevel.playSeededSound(null,player.getX(),player.getY(),player.getZ(),
+                                ModSounds.BERSERK_SOUND.get(), SoundSource.AMBIENT,1f,1f,0);
                     }
                 }
                 if(playerThirst.getpIndex() == 3){
                     if(playerThirst.getCooldown((byte) 2) == 0){
                         player.addEffect(new MobEffectInstance(ModEffects.LIMITLESS.get(),800,0));
+                        pLevel.playSeededSound(null,player.getX(),player.getY(),player.getZ(),
+                                ModSounds.LIMITLESS_SOUND.get(), SoundSource.AMBIENT,1f,1f,0);
                         playerThirst.setCooldown(180,(byte)2);
                     }
                 }
@@ -59,6 +67,8 @@ public class Ability3Packet {
                     if(playerThirst.getCooldown((byte) 2) == 0) {
                         //Brawler adding disarm effect to themselves
                         player.addEffect(new MobEffectInstance(ModEffects.DISARM.get(), 200, 0));
+                        pLevel.playSeededSound(null,player.getX(),player.getY(),player.getZ(),
+                                ModSounds.DISARM_SOUND.get(), SoundSource.AMBIENT,1f,1f,0);
                         playerThirst.setCooldown(30,(byte)2);
                     }
                 }

@@ -1,6 +1,7 @@
 package net.nathan.gandlsmod.networking.packet;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -23,6 +24,7 @@ import net.minecraftforge.network.NetworkEvent;
 import net.nathan.gandlsmod.client.ClientThirstData;
 import net.nathan.gandlsmod.effects.ModEffects;
 import net.nathan.gandlsmod.networking.ModMessages;
+import net.nathan.gandlsmod.sound.ModSounds;
 import net.nathan.gandlsmod.thirst.PlayerThirstProvider;
 
 import java.util.List;
@@ -96,6 +98,11 @@ public class DrinkWaterPacket {
                     if(playerThirst.getCooldown((byte) 0 ) == 0.0f) {
                         playerThirst.addCheck(0.5f);
                         playerThirst.setCooldown(5.0f, (byte) 0);
+                        //Play Warrior sound
+                        pLevel.playSeededSound(null,player.getX(),player.getY(),player.getZ(),
+                                ModSounds.SPIN_SOUND.get(),SoundSource.AMBIENT,1f,1f,0);
+                        //Server level MUST be used to add particles for all clients
+                        //level.addParticle();
                     }
 
 
@@ -109,6 +116,8 @@ public class DrinkWaterPacket {
                     if(playerThirst.getCooldown((byte) 0) <= 0.0f){
                         //This is a Gravity Wizard using their "Push" projectile
                         //If the player has a "Push" object already, detonate it, add cooldown
+                        pLevel.playSeededSound(null,player.getX(),player.getY(),player.getZ(),
+                                ModSounds.PUSH_SOUND.get(), SoundSource.AMBIENT,1f,1f,0);
                         Chicken s = new Chicken(EntityType.CHICKEN,pLevel);
                         s.moveTo(player.getX(),player.getY()+1.5,player.getZ());
                         s.setDeltaMovement(player.getLookAngle().x * 0.5f, player.getLookAngle().y * 0.5f, player.getLookAngle().z * 0.5f);
@@ -118,6 +127,7 @@ public class DrinkWaterPacket {
                         s.addEffect(new MobEffectInstance(ModEffects.PUSH.get(),200,0));
                         pLevel.addFreshEntity(s);
                         playerThirst.setCooldown(60,(byte) 0);
+
                     }
                 }
 

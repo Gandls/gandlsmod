@@ -6,6 +6,7 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageSources;
 import net.minecraft.world.damagesource.DamageType;
@@ -39,6 +40,7 @@ import net.nathan.gandlsmod.effects.GetOutEffectInstance;
 import net.nathan.gandlsmod.effects.ModEffects;
 import net.nathan.gandlsmod.networking.ModMessages;
 import net.nathan.gandlsmod.networking.packet.ThirstDataSyncSToC;
+import net.nathan.gandlsmod.sound.ModSounds;
 import net.nathan.gandlsmod.thirst.PlayerThirst;
 import net.nathan.gandlsmod.thirst.PlayerThirstProvider;
 import net.minecraft.network.chat.Component;
@@ -268,7 +270,8 @@ public class ModEvents {
         //NO MODMESSAGE NECESSARY!
         //Since the attack itself is a player (and therefore client) sided event
         //The server version of the player is in agreement
-
+        LivingEntity s = event.getEntity();
+        Entity b = event.getTarget();
         //Check if the player attacking is a warrior
         //Add their bonus damage stat to the attack
         //Reset the bonus damage
@@ -294,28 +297,30 @@ public class ModEvents {
 
                         if(thirst.getEmpowered()) {
                             if(event.getTarget() instanceof Player) {
-                                ((LivingEntity) event.getTarget()).addEffect(new MobEffectInstance(ModEffects.DAZE.get(), 100));
-                                ((LivingEntity) event.getTarget()).addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 200, 2));
-                                ((LivingEntity) event.getTarget()).addEffect(new MobEffectInstance(MobEffects.CONFUSION, 100, 0));
+                                s.level().playSeededSound(null,s.getX(),s.getY(),s.getZ(),
+                                        ModSounds.DAZE_SOUND.get(), SoundSource.AMBIENT,1f,1f,0);
+                                ((LivingEntity) b).addEffect(new MobEffectInstance(ModEffects.DAZE.get(), 100));
+                                ((LivingEntity) b).addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 200, 2));
+                                ((LivingEntity) b).addEffect(new MobEffectInstance(MobEffects.CONFUSION, 100, 0));
                                 //Deal void damage
-                                event.getTarget().hurt(event.getEntity().level().damageSources().fellOutOfWorld(), 5.0f * thirst.getCharge() * 2.0f);
+                                b.hurt(event.getEntity().level().damageSources().fellOutOfWorld(), 5.0f * thirst.getCharge() * 2.0f);
                                 //Apply knockback (must cast to living entity because not all entity types take knockback)
-                                ((LivingEntity) event.getTarget()).knockback(
+                                ((LivingEntity) b).knockback(
                                         1 + 0.8 * thirst.getCharge(),
                                         -event.getEntity().getLookAngle().x,
                                         -event.getEntity().getLookAngle().z);
                                 thirst.setEmpowered(false);
                                 thirst.setCooldown(12.0f, (byte) 0);
                             }else{
-                                ((LivingEntity) event.getTarget()).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100,2));
-                                ((LivingEntity) event.getTarget()).addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 200, 2));
-                                ((LivingEntity) event.getTarget()).addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0));
-                                event.getTarget().hurt(event.getEntity().level().damageSources().fellOutOfWorld(), 5.0f * thirst.getCharge() * 2.0f);
+                                ((LivingEntity) b).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100,2));
+                                ((LivingEntity) b).addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 200, 2));
+                                ((LivingEntity) b).addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0));
+                                event.getTarget().hurt(s.level().damageSources().fellOutOfWorld(), 5.0f * thirst.getCharge() * 2.0f);
                                 //Apply knockback (must cast to living entity because not all entity types take knockback)
-                                ((LivingEntity) event.getTarget()).knockback(
+                                ((LivingEntity) b).knockback(
                                         1 + 0.8 * thirst.getCharge(),
-                                        -event.getEntity().getLookAngle().x,
-                                        -event.getEntity().getLookAngle().z);
+                                        -s.getLookAngle().x,
+                                        -s.getLookAngle().z);
                                 thirst.setEmpowered(false);
                                 thirst.setCooldown(12.0f, (byte) 0);
                             }

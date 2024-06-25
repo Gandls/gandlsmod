@@ -8,6 +8,8 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -27,6 +29,7 @@ import net.minecraftforge.event.level.SleepFinishedTimeEvent;
 import net.minecraftforge.network.NetworkEvent;
 import net.nathan.gandlsmod.effects.DazeEffect;
 import net.nathan.gandlsmod.networking.ModMessages;
+import net.nathan.gandlsmod.sound.ModSounds;
 import net.nathan.gandlsmod.thirst.PlayerThirstProvider;
 import net.nathan.gandlsmod.effects.ModEffects;
 import org.apache.logging.log4j.core.jmx.Server;
@@ -88,6 +91,8 @@ public class Ability2Packet {
                             //The scale affects both the horizontal and vertical momentum, so close entities are knocked up high
                             b.setDeltaMovement(b.getDeltaMovement().add(res));
                         }
+                        pLevel.playSeededSound(null,player.getX(),player.getY(),player.getZ(),
+                                ModSounds.SLAM_SOUND.get(), SoundSource.AMBIENT,1f,1f,0);
                         playerThirst.setCooldown(15.0f, (byte) 1);
                     }
                 }
@@ -95,6 +100,8 @@ public class Ability2Packet {
                     if(playerThirst.getCooldown((byte) 1) <= 0.0f){
                         //This is a Gravity Wizard using their "Pull" projectile
                         Chicken s = new Chicken(EntityType.CHICKEN,pLevel);
+                        pLevel.playSeededSound(null,player.getX(),player.getY(),player.getZ(),
+                                ModSounds.PULL_SOUND.get(), SoundSource.AMBIENT,1f,1f,0);
                         s.moveTo(player.getX(),player.getY()+1.5,player.getZ());
                         s.setDeltaMovement(player.getLookAngle().x * 0.5f, player.getLookAngle().y * 0.5f, player.getLookAngle().z * 0.5f);
                         s.setNoGravity(true);
@@ -121,6 +128,8 @@ public class Ability2Packet {
                     //ServerLevel s = (ServerLevel) pLevel;
                     //s.sendParticles(ParticleTypes.FLASH, player.getX(), player.getY() + 1.5f, player.getZ(),10, 0, 0, 0,0);
                     if(playerThirst.getCooldown((byte) 1) == 0.0) {
+                        pLevel.playSeededSound(null,player.getX(),player.getY(),player.getZ(),
+                                ModSounds.DYNAMITE_SOUND.get(), SoundSource.AMBIENT,1f,1f,0);
                         Vec3 up = player.getUpVector(0);
                         Vec3 forward = player.getForward();
                         Vec3 Left = up.cross(forward);
@@ -172,6 +181,8 @@ public class Ability2Packet {
                     if(playerThirst.getCooldown((byte) 2) == 0) {
                         //A warlock using dragons breath
                         player.addEffect(new MobEffectInstance(ModEffects.DRAGONBREATH.get(), 200, 0));
+                        pLevel.playSeededSound(null,player.getX(),player.getY(),player.getZ(),
+                                SoundEvents.ENDER_DRAGON_GROWL, SoundSource.AMBIENT,1f,1f,0);
                         playerThirst.setCooldown(60, (byte) 2);
                     }
                 }

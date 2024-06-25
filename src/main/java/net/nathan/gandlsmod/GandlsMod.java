@@ -19,6 +19,7 @@ import net.nathan.gandlsmod.effects.ModEffects;
 import net.nathan.gandlsmod.item.ModCreativeModeTabs;
 import net.nathan.gandlsmod.item.ModItems;
 import net.nathan.gandlsmod.networking.ModMessages;
+import net.nathan.gandlsmod.sound.ModSounds;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -55,6 +56,7 @@ public class GandlsMod
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModEffects.register(modEventBus);
+        ModSounds.register(modEventBus);
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 

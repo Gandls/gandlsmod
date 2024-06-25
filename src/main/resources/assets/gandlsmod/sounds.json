@@ -1,0 +1,75 @@
+{
+  "metal_detector_found_ore": {
+    "subtitles": "sounds.gandlsmod.metal_detector_found_ore",
+    "sounds": [
+      "gandlsmod:metal_detector_found_ore"
+    ]
+  },
+  "break_sound": {
+    "subtitle": "sounds.gandlsmod.sound_block_break",
+    "sounds": [
+      "gandlsmod:sound_block_break"
+    ]
+  },
+  "step_sound": {
+    "subtitle": "sounds.gandlsmod.sound_block_step",
+    "sounds": [
+      "gandlsmod:sound_block_step"
+    ]
+  },
+  "place_sound": {
+    "subtitle": "sounds.gandlsmod.sound_block_place",
+    "sounds": [
+      "gandlsmod:sound_block_place"
+    ]
+  },
+  "hit_sound": {
+    "subtitle": "sounds.gandlsmod.sound_block_hit",
+    "sounds": [
+      "gandlsmod:sound_block_hit"
+    ]
+  },
+  "fall_sound": {
+    "subtitle": "sounds.gandlsmod.sound_block_fall",
+    "sounds": [
+      "gandlsmod:sound_block_fall"
+    ]
+  },
+  "spin_sound": {
+    "subtitle": "sounds.gandlsmod.sound_spin",
+    "sounds": [
+      "gandlsmod:sound_spin"
+    ]
+  },
+  "slam_sound": {
+    "subtitle": "sounds.gandlsmod.sound_slam",
+    "sounds": [
+      "gandlsmod:sound_slam"
+    ]
+  },
+  "berserk_sound": {
+    "subtitle": "sounds.gandlsmod.sound_berserk",
+    "sounds": [
+      "gandlsmod:sound_berserk"
+    ]
+  },
+  "daze_sound": {
+    "subtitle": "sounds.gandlsmod.sound_daze",
+    "sounds": [
+      "gandlsmod:sound_daze"
+    ]
+  },
+  "dynamite_sound": {
+    "subtitle": "sounds.gandlsmod.sound_dynamitefist",
+    "sounds": [
+      "gandlsmod:sound_dynamitefist"
+    ]
+  },
+  "disarm_sound": {
+    "subtitle": "sounds.gandlsmod.sound_disarm",
+    "sounds": [
+      "gandlsmod:sound_disarm"
+    ]
+  }
+
+}
