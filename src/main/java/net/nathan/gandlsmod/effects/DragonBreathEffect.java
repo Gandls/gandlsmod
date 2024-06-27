@@ -9,6 +9,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
@@ -28,6 +29,8 @@ public class DragonBreathEffect extends MobEffect {
             //With each tick of the effect, do X
 
         }else{
+            //TODO
+            //Cone particles, each one going forward with a bit of randomness
             c = pLivingEntity.level().damageSources().dragonBreath();
             //Server Side Effects
             //Each tick, deal damage to the player, and damage entities in front

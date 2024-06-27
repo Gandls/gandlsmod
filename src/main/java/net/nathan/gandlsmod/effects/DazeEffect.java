@@ -1,6 +1,8 @@
 package net.nathan.gandlsmod.effects;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
@@ -23,6 +25,13 @@ public class DazeEffect extends MobEffect {
             }
         }else{
             //Server Side Effects
+            //Particles (Halo of stars?)
+            if(Math.random() < 0.1f) {
+                for (int i = 0; i < 16; i++) {
+                    ((ServerLevel) pLivingEntity.level()).sendParticles(ParticleTypes.WAX_OFF, pLivingEntity.getX() + Math.sin(0.125 * Math.PI * i), pLivingEntity.getY() + 2.2f, pLivingEntity.getZ() + Math.cos(0.125 * Math.PI * i),
+                            2, 0, 0, 0, 0.0);
+                }
+            }
         }
 
     }

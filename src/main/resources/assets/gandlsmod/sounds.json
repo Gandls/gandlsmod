@@ -70,6 +70,47 @@
     "sounds": [
       "gandlsmod:sound_disarm"
     ]
+  },
+  "earthshield_sound": {
+    "subtitle": "sounds.gandlsmod.sound_earthshield",
+    "sounds": [
+      "gandlsmod:sound_earthshield"
+    ]
+  },
+  "wolfsummon_sound": {
+    "subtitle": "sounds.gandlsmod.sound_wolfsummon",
+    "sounds": [
+      "gandlsmod:sound_wolfsummon"
+    ]
+  },
+  "mark_sound": {
+    "subtitle": "sounds.gandlsmod.sound_mark",
+    "sounds": [
+      "gandlsmod:sound_mark"
+    ]
+  },
+  "dodge_sound": {
+    "subtitle": "sounds.gandlsmod.sound_dodge",
+    "sounds": [
+      "gandlsmod:sound_dodge"
+    ]
+  },
+  "pull_sound": {
+    "subtitle": "sounds.gandlsmod.sound_pull",
+    "sounds": [
+      "gandlsmod:sound_pull"
+    ]
+  },
+  "push_sound": {
+    "subtitle": "sounds.gandlsmod.sound_push",
+    "sounds": [
+      "gandlsmod:sound_push"
+    ]
+  },
+  "limitless_sound": {
+    "subtitle": "sounds.gandlsmod.sound_limitless",
+    "sounds": [
+      "gandlsmod:sound_limitless"
+    ]
   }
-
 }

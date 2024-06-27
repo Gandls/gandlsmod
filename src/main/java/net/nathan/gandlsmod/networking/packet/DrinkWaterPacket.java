@@ -2,6 +2,7 @@ package net.nathan.gandlsmod.networking.packet;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -103,6 +104,10 @@ public class DrinkWaterPacket {
                                 ModSounds.SPIN_SOUND.get(),SoundSource.AMBIENT,1f,1f,0);
                         //Server level MUST be used to add particles for all clients
                         //level.addParticle();
+                        //level.sendParticles(ParticleTypes.FLASH,player.getX(),player.getY(),player.getZ(),1,0,0,0,0);
+                        for(int i=0;i<16;i++){
+                            level.sendParticles(ParticleTypes.CHERRY_LEAVES,player.getX(),player.getY()+0.7f,player.getZ(),6,Math.sin(0.125f*Math.PI*i)*5f,0,Math.cos(0.125f*Math.PI*i)*5f,0.0f);
+                        }
                     }
 
 
@@ -187,6 +192,8 @@ public class DrinkWaterPacket {
                 if(playerThirst.getpIndex() == 8){
                     //This is an assassin Marking entities nearby for death
                     if(playerThirst.getCooldown((byte) 1) == 0) {
+                        pLevel.playSeededSound(null,player.getX(),player.getY(),player.getZ(),
+                                ModSounds.MARK_SOUND.get(), SoundSource.AMBIENT,1f,1f,0);
                         List<Entity> a = player.level().getEntities(player, player.getBoundingBox().inflate(3.0f));
                         for (Entity b : a) {
                             //Add the effect

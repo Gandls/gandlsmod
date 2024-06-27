@@ -94,6 +94,8 @@ public class Ability3Packet {
                 if(playerThirst.getpIndex() == 7){
                     if(playerThirst.getCooldown((byte) 3) == 0){
                         //Shaman summoning a wolf
+                        pLevel.playSeededSound(null,player.getX(),player.getY(),player.getZ(),
+                                ModSounds.WOLFSUMMON_SOUND.get(), SoundSource.AMBIENT,1f,1f,0);
                         Wolf w = new Wolf(EntityType.WOLF,pLevel);
                         w.setTame(true);
                         w.setOwnerUUID(player.getUUID());

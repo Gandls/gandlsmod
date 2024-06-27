@@ -94,6 +94,13 @@ public class Ability2Packet {
                         pLevel.playSeededSound(null,player.getX(),player.getY(),player.getZ(),
                                 ModSounds.SLAM_SOUND.get(), SoundSource.AMBIENT,1f,1f,0);
                         playerThirst.setCooldown(15.0f, (byte) 1);
+                        //Particle
+                        for(int i=0;i<16;i++){
+                            level.sendParticles(ParticleTypes.MYCELIUM, player.getX() + Math.sin(0.125f*Math.PI*i)*2f,player.getY(),player.getZ() + Math.cos(0.125f*Math.PI*i)*2f,20,0,0.5,0,0.3f);
+                            level.sendParticles(ParticleTypes.MYCELIUM, player.getX() + Math.sin(0.125f*Math.PI*i)*4f,player.getY(),player.getZ() + Math.cos(0.125f*Math.PI*i)*4f,20,0,0.7,0,0.4f);
+                        }
+
+
                     }
                 }
                 if(playerThirst.getpIndex() == 3) {
@@ -130,6 +137,7 @@ public class Ability2Packet {
                     if(playerThirst.getCooldown((byte) 1) == 0.0) {
                         pLevel.playSeededSound(null,player.getX(),player.getY(),player.getZ(),
                                 ModSounds.DYNAMITE_SOUND.get(), SoundSource.AMBIENT,1f,1f,0);
+
                         Vec3 up = player.getUpVector(0);
                         Vec3 forward = player.getForward();
                         Vec3 Left = up.cross(forward);
@@ -145,7 +153,10 @@ public class Ability2Packet {
                         end = end.add(Left.scale(-4.0f));
                         end = end.add(up.scale(3.0f));
 
-
+                        for(int i=1;i<6;i++){
+                            level.sendParticles(ParticleTypes.EXPLOSION_EMITTER,player.getX() + forward.x()*i*4,player.getY()+1.5f+forward.y()*i*4,player.getZ()+forward.z*i*4,
+                                    1,0,0,0,0);
+                        }
                         AABB minMax = new AABB(start, end);
                         player.sendSystemMessage(Component.literal("Start: " + start));
                         player.sendSystemMessage(Component.literal("End: " + end));
@@ -191,6 +202,8 @@ public class Ability2Packet {
                     if(playerThirst.getCooldown((byte) 2) == 0){
                         //Shaman using Earth Shield
                         player.addEffect(new MobEffectInstance(ModEffects.EARTHSHIELD.get(),240,0));
+                        pLevel.playSeededSound(null,player.getX(),player.getY(),player.getZ(),
+                                ModSounds.EARTHSHIELD_SOUND.get(), SoundSource.AMBIENT,1f,1f,0);
                         playerThirst.setCooldown(60,(byte) 2);
                     }
                 }

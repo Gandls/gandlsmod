@@ -58,8 +58,6 @@ public class Ability1 extends Item {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
         Vec3 LA = pPlayer.getLookAngle();
         pPlayer.getCapability(PlayerThirstProvider.PLAYER_THIRST).ifPresent(thirst -> {
-            pPlayer.sendSystemMessage(Component.literal("Class: " + thirst.getpIndex()));
-            //Since you changed data client side, you must tell the server about the changes
 
 
 

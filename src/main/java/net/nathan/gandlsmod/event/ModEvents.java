@@ -112,7 +112,10 @@ public class ModEvents {
     public static void onDamaged(LivingDamageEvent event){
 
         if(event.getEntity().getEffect(ModEffects.EVASION.get()) != null){
-            event.getEntity().removeEffect(ModEffects.EVASION.get());
+            LivingEntity s = event.getEntity();
+            s.removeEffect(ModEffects.EVASION.get());
+            s.level().playSeededSound(null,s.getX(),s.getY(),s.getZ(),
+                    ModSounds.DODGE_SOUND.get(), SoundSource.AMBIENT,1f,1f,0);
             event.setCanceled(true);
             return;
         }else if(event.getEntity().getEffect(ModEffects.LIMITLESS.get()) != null){
@@ -148,8 +151,6 @@ public class ModEvents {
                             event.setAmount(event.getAmount() * 1.5f);
                         }
                         //Warrior
-                        //TODO
-                        //Warriors should not only gain from fall damage, fix later
                         if(msgId.equals("fall") ||
                         msgId.equals("arrow") ||
                                 msgId.equals("explosion") ||
@@ -293,12 +294,11 @@ public class ModEvents {
                         //Against Mobs: Slowness, Mining Fatigue, Weakness
                         //Against Players: Nausea, Mining Fatigue, Low FOV, Low Sensitivity (Use an on/off bool + timer)
 
-                        thirst.getEmpowered();
-
                         if(thirst.getEmpowered()) {
                             if(event.getTarget() instanceof Player) {
-                                s.level().playSeededSound(null,s.getX(),s.getY(),s.getZ(),
-                                        ModSounds.DAZE_SOUND.get(), SoundSource.AMBIENT,1f,1f,0);
+                                //Using play sound instead of playseededsound
+                                s.level().playSound(null,s.getX(),s.getY(),s.getZ(),ModSounds.DAZE_SOUND.get(), SoundSource.AMBIENT,1f,1f);
+
                                 ((LivingEntity) b).addEffect(new MobEffectInstance(ModEffects.DAZE.get(), 100));
                                 ((LivingEntity) b).addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 200, 2));
                                 ((LivingEntity) b).addEffect(new MobEffectInstance(MobEffects.CONFUSION, 100, 0));
@@ -312,6 +312,7 @@ public class ModEvents {
                                 thirst.setEmpowered(false);
                                 thirst.setCooldown(12.0f, (byte) 0);
                             }else{
+                                s.level().playSound(null,s.getX(),s.getY(),s.getZ(),ModSounds.DAZE_SOUND.get(), SoundSource.AMBIENT,1f,1f);
                                 ((LivingEntity) b).addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100,2));
                                 ((LivingEntity) b).addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 200, 2));
                                 ((LivingEntity) b).addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0));

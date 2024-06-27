@@ -34,7 +34,6 @@ public class ModSounds {
     //Brawler
     public static final RegistryObject<SoundEvent> DAZE_SOUND = registerSoundEvents("daze_sound");
     public static final RegistryObject<SoundEvent> DYNAMITE_SOUND = registerSoundEvents("dynamite_sound");
-
     public static final RegistryObject<SoundEvent> DISARM_SOUND = registerSoundEvents("disarm_sound");
 
     //Pyromancer(N/A)
@@ -42,8 +41,13 @@ public class ModSounds {
     //Warlock (N/A)
 
     //Shaman
+    public static final RegistryObject<SoundEvent> EARTHSHIELD_SOUND = registerSoundEvents("earthshield_sound");
+    public static final RegistryObject<SoundEvent> WOLFSUMMON_SOUND = registerSoundEvents("wolfsummon_sound");
 
     //Assassin
+    public static final RegistryObject<SoundEvent> MARK_SOUND = registerSoundEvents("mark_sound");
+    public static final RegistryObject<SoundEvent> DODGE_SOUND = registerSoundEvents("dodge_sound");
+
 
     public static final ForgeSoundType SOUND_MOD_SOUNDS = new ForgeSoundType(1f,1f,
             ModSounds.BREAK_SOUND,ModSounds.STEP_SOUND,ModSounds.PLACE_SOUND,ModSounds.HIT_SOUND,ModSounds.FALL_SOUND);

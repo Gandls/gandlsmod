@@ -30,6 +30,7 @@ public class ModCreativeModeTabs {
                         pOutput.accept(ModBlocks.SOUND_BLOCK.get());
                         pOutput.accept(ModBlocks.CRUMBLE_BLOCK.get());
                         pOutput.accept(ModItems.CLASS_ERASER.get());
+                        pOutput.accept(ModItems.GANDLS_GUIDE.get());
                         pOutput.accept(ModItems.WARRIOR_STICK.get());
                         pOutput.accept(ModItems.GRAVITY_WIZARD_STICK.get());
                         pOutput.accept(ModItems.BRAWLER_STICK.get());

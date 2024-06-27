@@ -1,6 +1,7 @@
 package net.nathan.gandlsmod.item;
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.WrittenBookItem;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -25,6 +26,8 @@ public class ModItems {
     public static final RegistryObject<Item>CLASS_ERASER = ITEMS.register("class_eraser",
     ()->new ClassEraserItem(new Item.Properties().durability(1)));
 
+    public static final RegistryObject<Item>GANDLS_GUIDE = ITEMS.register("gandls_guide",
+            ()->new GandlsModGuideItem(new Item.Properties()));
     public static final RegistryObject<Item>WARRIOR_STICK = ITEMS.register("warrior_stick",
             ()->new WarriorStickItem(new Item.Properties().durability(1)));
     public static final RegistryObject<Item>WARLOCK_STICK = ITEMS.register("warlock_stick",
