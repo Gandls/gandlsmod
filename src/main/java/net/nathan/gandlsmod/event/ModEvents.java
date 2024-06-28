@@ -1,16 +1,11 @@
 package net.nathan.gandlsmod.event;
 
-import com.mojang.blaze3d.shaders.Effect;
-import com.mojang.blaze3d.shaders.FogShape;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageSources;
-import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
@@ -18,28 +13,22 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.projectile.LargeFireball;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.AirBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.event.MovementInputUpdateEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.client.event.ViewportEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
-import net.minecraftforge.eventbus.api.Event;
 import net.nathan.gandlsmod.GandlsMod;
 import net.nathan.gandlsmod.client.ClientThirstData;
 import net.nathan.gandlsmod.effects.GetOutEffectInstance;
 import net.nathan.gandlsmod.effects.ModEffects;
 import net.nathan.gandlsmod.networking.ModMessages;
 import net.nathan.gandlsmod.networking.packet.ThirstDataSyncSToC;
+import net.nathan.gandlsmod.particle.ModParticles;
+import net.nathan.gandlsmod.particle.custom.DeathParticles;
 import net.nathan.gandlsmod.sound.ModSounds;
 import net.nathan.gandlsmod.thirst.PlayerThirst;
 import net.nathan.gandlsmod.thirst.PlayerThirstProvider;
@@ -53,13 +42,10 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
-import org.jetbrains.annotations.NotNull;
-import org.jline.utils.Log;
+import org.jetbrains.annotations.Debug;
 
-import java.util.Collection;
-import java.util.Iterator;
+import java.io.Console;
 import java.util.List;
-import java.util.ListIterator;
 
 
 @Mod.EventBusSubscriber(modid = GandlsMod.MOD_ID)
@@ -74,6 +60,12 @@ public class ModEvents {
                     ((GetOutEffectInstance) s).sendBack(event.getEntity());
                 }
             }
+    }
+
+    @SubscribeEvent
+    public static void registerParticleFactories(final RegisterParticleProvidersEvent event){
+        //Minecraft.getInstance().particleEngine.register(ModParticles.DEATH_PARTICLES.get(), DeathParticles.Provider::new);
+        event.registerSpriteSet(ModParticles.DEATH_PARTICLES.get(), DeathParticles.Provider::new);
     }
 
     @SubscribeEvent

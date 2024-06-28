@@ -1,6 +1,8 @@
 package net.nathan.gandlsmod.effects;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.Entity;
@@ -39,6 +41,41 @@ public class LimitlessEffect extends MobEffect {
                     }else{
 
                     }
+                }
+            }
+
+            if(Math.random() < 0.4f) {
+                for (int i = 0; i < 16; i++) {
+                    ((ServerLevel) pLivingEntity.level()).sendParticles(ParticleTypes.ELECTRIC_SPARK,
+                            pLivingEntity.getX() + Math.sin(0.125 * Math.PI * i)*0.5f,
+                            pLivingEntity.getY() +  pLivingEntity.getEyeHeight() -0.5f,
+                            pLivingEntity.getZ() + Math.cos(0.125 * Math.PI * i)*0.5f,
+                            0, 0, 0, 0, 0.0);
+                    ((ServerLevel) pLivingEntity.level()).sendParticles(ParticleTypes.ELECTRIC_SPARK,
+                            pLivingEntity.getX() + Math.sin(0.125 * Math.PI * i)*0.4f,
+                            pLivingEntity.getY() +  pLivingEntity.getEyeHeight() -0.2f,
+                            pLivingEntity.getZ() + Math.cos(0.125 * Math.PI * i)*0.4f,
+                            0, 0, 0, 0, 0.0);
+                    ((ServerLevel) pLivingEntity.level()).sendParticles(ParticleTypes.ELECTRIC_SPARK,
+                            pLivingEntity.getX() + Math.sin(0.125 * Math.PI * i)*0.2f,
+                            pLivingEntity.getY() +  pLivingEntity.getEyeHeight() +0.2f,
+                            pLivingEntity.getZ() + Math.cos(0.125 * Math.PI * i)*0.2f,
+                            0, 0, 0, 0, 0.0);
+                    ((ServerLevel) pLivingEntity.level()).sendParticles(ParticleTypes.ELECTRIC_SPARK,
+                            pLivingEntity.getX() + Math.sin(0.125 * Math.PI * i)*0.5f,
+                            pLivingEntity.getY() +  pLivingEntity.getEyeHeight() -0.8f,
+                            pLivingEntity.getZ() + Math.cos(0.125 * Math.PI * i)*0.5f,
+                            0, 0, 0, 0, 0.0);
+                    ((ServerLevel) pLivingEntity.level()).sendParticles(ParticleTypes.ELECTRIC_SPARK,
+                            pLivingEntity.getX() + Math.sin(0.125 * Math.PI * i)*0.5f,
+                            pLivingEntity.getY() +  pLivingEntity.getEyeHeight() -1.1f,
+                            pLivingEntity.getZ() + Math.cos(0.125 * Math.PI * i)*0.5f,
+                            0, 0, 0, 0, 0.0);
+                    ((ServerLevel) pLivingEntity.level()).sendParticles(ParticleTypes.ELECTRIC_SPARK,
+                            pLivingEntity.getX() + Math.sin(0.125 * Math.PI * i)*0.3f,
+                            pLivingEntity.getY() +  pLivingEntity.getEyeHeight() -1.4f,
+                            pLivingEntity.getZ() + Math.cos(0.125 * Math.PI * i)*0.3f,
+                            0, 0, 0, 0, 0.0);
                 }
             }
         }

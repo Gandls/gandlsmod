@@ -19,6 +19,7 @@ import net.nathan.gandlsmod.effects.ModEffects;
 import net.nathan.gandlsmod.item.ModCreativeModeTabs;
 import net.nathan.gandlsmod.item.ModItems;
 import net.nathan.gandlsmod.networking.ModMessages;
+import net.nathan.gandlsmod.particle.ModParticles;
 import net.nathan.gandlsmod.sound.ModSounds;
 import org.slf4j.Logger;
 
@@ -57,6 +58,7 @@ public class GandlsMod
         ModBlocks.register(modEventBus);
         ModEffects.register(modEventBus);
         ModSounds.register(modEventBus);
+        ModParticles.register(modEventBus);
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
 

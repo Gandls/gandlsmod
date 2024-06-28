@@ -41,8 +41,8 @@ public class Helper {
 
          */
 
-        double roots = Math.sqrt(Math.pow(a.x,2)+Math.pow(a.y,2)+Math.pow(a.z,2)) * Math.sqrt(Math.pow(b.x,2)+Math.pow(b.y,2)+Math.pow(b.z,2));
-        double sum  = a.x * b.x+a.z * b.z+a.z * b.z;
+        double roots = a.length()*b.length();
+        double sum  = a.dot(b);
 
         return Math.acos(sum/roots);
 

@@ -2,6 +2,7 @@ package net.nathan.gandlsmod.networking.packet;
 
 import net.minecraft.client.Camera;
 import net.minecraft.client.particle.*;
+import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.FriendlyByteBuf;
@@ -23,6 +24,7 @@ import net.minecraft.world.entity.projectile.LargeFireball;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.level.SleepFinishedTimeEvent;
@@ -204,6 +206,9 @@ public class Ability2Packet {
                         player.addEffect(new MobEffectInstance(ModEffects.EARTHSHIELD.get(),240,0));
                         pLevel.playSeededSound(null,player.getX(),player.getY(),player.getZ(),
                                 ModSounds.EARTHSHIELD_SOUND.get(), SoundSource.AMBIENT,1f,1f,0);
+                        //Particles, a bunch of earth comes up from the ground
+                        level.sendParticles(new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.RED_SAND.defaultBlockState()),
+                                player.position().x,player.position().y + 1.2,player.position().z,50,0.7,-0.7,0.7,0.5);
                         playerThirst.setCooldown(60,(byte) 2);
                     }
                 }

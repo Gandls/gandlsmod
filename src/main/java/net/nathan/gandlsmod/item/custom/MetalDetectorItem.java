@@ -32,8 +32,11 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.nathan.gandlsmod.Helper;
+import net.nathan.gandlsmod.particle.ModParticles;
 import net.nathan.gandlsmod.sound.ModSounds;
 import net.nathan.gandlsmod.thirst.PlayerThirstProvider;
+import org.apache.logging.log4j.core.tools.picocli.CommandLine;
 
 import java.util.Set;
 
@@ -50,6 +53,7 @@ public class MetalDetectorItem extends Item {
             BlockPos positionClicked = pContext.getClickedPos();
             Player player = pContext.getPlayer();
             if(player != null) {
+                spawnFoundParticles(pContext, positionClicked);
                 /*
                 player.setDeltaMovement(
                         new Vec3(
@@ -108,6 +112,7 @@ public class MetalDetectorItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
         pPlayer.getCooldowns().addCooldown(this, 2);
+
         /*
         if (!pLevel.isClientSide) {
             ThrownEnderpearl thrownenderpearl = new ThrownEnderpearl(pLevel, pPlayer);
@@ -121,6 +126,33 @@ public class MetalDetectorItem extends Item {
             itemstack.shrink(1);
         }
         */
+
+        Vec3 lA = new Vec3(Math.random(),Math.random(),Math.random()).normalize();
+        //pPlayer.sendSystemMessage(Component.literal(lA.toString()));
+        Vec3 t = pPlayer.getLookAngle();
+
+        Vec3 z = pPlayer.getUpVector(0);
+
+        double r = Math.random()*180;
+        t = Helper.rotate(t,lA,r);
+        z = Helper.rotate(z,lA,r);
+        //Get the cross product
+        Vec3 cross = lA.cross(t);
+        //Problem: The cross is always y=0 since x/z are 0, meaning the cross is in the xz plane
+        //if the cross is always in the x/z plane then its always 90 degrees to t
+        //If its always 90 to t, then t will get rotated down to the x/z plane
+        //pPlayer.sendSystemMessage(Component.literal(cross.toString()));
+        for(int i=0;i<36;i++){
+            Vec3 rot = rotate(z,t,i*10).normalize();
+            pLevel.addParticle(ParticleTypes.FLAME,
+                    rot.x*3f + pPlayer.position().x,
+                    rot.y*3f+ pPlayer.position().y+pPlayer.getEyeHeight(),
+                    rot.z*3f+ pPlayer.position().z,
+                    0,
+                    0,
+                    0);
+        }
+
         pPlayer.getCapability(PlayerThirstProvider.PLAYER_THIRST).ifPresent(thirst -> {
 
             if(thirst.getpIndex() != 1){
@@ -152,12 +184,12 @@ public class MetalDetectorItem extends Item {
 
                 //This code sort of works
 
-                Vec3 lA = pPlayer.getLookAngle().normalize();
+
                 //Since this is a vector known to be perpendicular (it's dot product with lA is zero)
                 //It will be rotated around the LA to create a ring
                 Vec3 perp = new Vec3(-lA.y/ lA.x,lA.y,0).normalize().scale(0.5f);
 
-
+                /*
                 for(int i=1;i<21;i++){
                     Vec3 rot = rotate(perp,lA,i*18).normalize().scale(0.5f);
                     pLevel.addParticle(ParticleTypes.FLAME,
@@ -168,6 +200,8 @@ public class MetalDetectorItem extends Item {
                             rot.y,
                             rot.z);
                 }
+
+                 */
 
 
 
@@ -191,6 +225,16 @@ public class MetalDetectorItem extends Item {
         + "(" + blockPos.getX() + "," + blockPos.getY() + "," + blockPos.getZ()+ ")"));
     }
 
+
+    private void spawnFoundParticles(UseOnContext pContext, BlockPos positionClicked) {
+        for(int i = 0; i < 360; i++) {
+            if(i % 20 == 0) {
+                pContext.getLevel().addParticle(ModParticles.DEATH_PARTICLES.get(),
+                        positionClicked.getX() + 0.5d, positionClicked.getY() + 1, positionClicked.getZ() + 0.5d,
+                        Math.cos(i) * 0.15d, 0.15d, Math.sin(i) * 0.15d);
+            }
+        }
+    }
     private boolean isValuableBlock(BlockState state) {
         return state.is(Blocks.IRON_ORE);
     }

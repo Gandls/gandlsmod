@@ -1,6 +1,8 @@
 package net.nathan.gandlsmod.effects;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -42,6 +44,12 @@ public class PingEffect extends MobEffect {
                             ((LivingEntity) b).addEffect(new MobEffectInstance(e,10,0));
                         }
                     });
+                }
+            }
+            if(Math.random() < 0.4f) {
+                for (int i = 0; i < 32; i++) {
+                    ((ServerLevel) pLivingEntity.level()).sendParticles(ParticleTypes.ELECTRIC_SPARK, pLivingEntity.getX() + Math.sin(0.0625 * Math.PI * i)*5f, pLivingEntity.getY() +  pLivingEntity.getEyeHeight(), pLivingEntity.getZ() + Math.cos(0.0625 * Math.PI * i)*5f,
+                            0, 0, 0, 0, 0.0);
                 }
             }
         }
