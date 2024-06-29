@@ -21,6 +21,8 @@ import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.ProjectileImpactEvent;
 import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.registries.NewRegistryEvent;
+import net.minecraftforge.registries.RegisterEvent;
 import net.nathan.gandlsmod.GandlsMod;
 import net.nathan.gandlsmod.client.ClientThirstData;
 import net.nathan.gandlsmod.effects.GetOutEffectInstance;
@@ -28,6 +30,7 @@ import net.nathan.gandlsmod.effects.ModEffects;
 import net.nathan.gandlsmod.networking.ModMessages;
 import net.nathan.gandlsmod.networking.packet.ThirstDataSyncSToC;
 import net.nathan.gandlsmod.particle.ModParticles;
+import net.nathan.gandlsmod.particle.custom.CheckParticles;
 import net.nathan.gandlsmod.particle.custom.DeathParticles;
 import net.nathan.gandlsmod.sound.ModSounds;
 import net.nathan.gandlsmod.thirst.PlayerThirst;
@@ -42,7 +45,7 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
-import org.jetbrains.annotations.Debug;
+import org.spongepowered.asm.mixin.Debug;
 
 import java.io.Console;
 import java.util.List;
@@ -50,9 +53,11 @@ import java.util.List;
 
 @Mod.EventBusSubscriber(modid = GandlsMod.MOD_ID)
 public class ModEvents {
-
+    static int x = 3;
+    static int y = 0;
     @SubscribeEvent
     public static void removeEffect(MobEffectEvent.Expired event){
+        x++;
         event.getEntity().sendSystemMessage(Component.literal("Entered MobEffectEvent Expiration"));
             MobEffectInstance s = event.getEffectInstance();
             if(s != null){
@@ -60,12 +65,6 @@ public class ModEvents {
                     ((GetOutEffectInstance) s).sendBack(event.getEntity());
                 }
             }
-    }
-
-    @SubscribeEvent
-    public static void registerParticleFactories(final RegisterParticleProvidersEvent event){
-        //Minecraft.getInstance().particleEngine.register(ModParticles.DEATH_PARTICLES.get(), DeathParticles.Provider::new);
-        event.registerSpriteSet(ModParticles.DEATH_PARTICLES.get(), DeathParticles.Provider::new);
     }
 
     @SubscribeEvent
@@ -102,6 +101,8 @@ public class ModEvents {
     //Also note that appropriate resources (like armor durability and absorption extra hearths) have already been consumed.
 @SubscribeEvent
     public static void onDamaged(LivingDamageEvent event){
+        event.getEntity().sendSystemMessage(Component.literal("Damage event, here it is: " + x));
+    event.getEntity().sendSystemMessage(Component.literal("Damage event, here it is: " + y));
 
         if(event.getEntity().getEffect(ModEffects.EVASION.get()) != null){
             LivingEntity s = event.getEntity();
@@ -419,8 +420,11 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void onRegisterCapabilities(RegisterCapabilitiesEvent event) {
+        //NOT BEING CALLED!!!
         event.register(PlayerThirst.class);
     }
+
+    /*
 
     @SubscribeEvent
     public static void onProjectileImpact(ProjectileImpactEvent event){
@@ -448,6 +452,8 @@ public class ModEvents {
 
 
         }
+
+     */
 
     @SubscribeEvent
     public static void onEquipChange(LivingEquipmentChangeEvent event){

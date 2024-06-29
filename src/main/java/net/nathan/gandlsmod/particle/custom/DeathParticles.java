@@ -32,7 +32,6 @@ public class DeathParticles extends TextureSheetParticle {
     @Override
     public void tick(){
         super.tick();
-        fadeOut();
     }
     private void fadeOut(){
         this.alpha = (-(1/(float)lifetime)* age +1);

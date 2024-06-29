@@ -21,6 +21,8 @@ import net.nathan.gandlsmod.client.ClientThirstData;
 import net.nathan.gandlsmod.client.ThirstHUDOverlay;
 import net.nathan.gandlsmod.networking.ModMessages;
 import net.nathan.gandlsmod.networking.packet.*;
+import net.nathan.gandlsmod.particle.ModParticles;
+import net.nathan.gandlsmod.particle.custom.DeathParticles;
 import net.nathan.gandlsmod.thirst.PlayerThirstProvider;
 import net.nathan.gandlsmod.util.KeyBinding;
 
@@ -33,6 +35,13 @@ public class ClientEvents {
 
         public static void onMouseDrag(InputEvent event){
 
+        }
+
+        @SubscribeEvent
+        public static void registerParticleFactories(final RegisterParticleProvidersEvent event){
+            //Minecraft.getInstance().particleEngine.register(ModParticles.DEATH_PARTICLES.get(), DeathParticles.Provider::new);
+            //Okay this is straight up not being run
+            Minecraft.getInstance().particleEngine.register(ModParticles.DEATH_PARTICLES.get(), DeathParticles.Provider::new);
         }
         @SubscribeEvent
         public static void onKeyInput(InputEvent event){

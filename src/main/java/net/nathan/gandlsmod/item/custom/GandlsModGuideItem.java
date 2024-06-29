@@ -45,7 +45,6 @@ public class GandlsModGuideItem extends WrittenBookItem {
             //It's a null problem
             //Creating the itemstack is the issue
             ItemStack it = new ItemStack(Items.WRITTEN_BOOK);
-            CT = new CompoundTag();
             CT.put("author", StringTag.valueOf("SARMA"));
             CT.put("title",StringTag.valueOf("Karma"));
             ListTag LT = new ListTag();
@@ -54,16 +53,7 @@ public class GandlsModGuideItem extends WrittenBookItem {
             CT.putBoolean("resolved",false);
             it.setTag(CT);
             pContext.getPlayer().addItem(it);
-
-
-        Level level = pContext.getLevel();
-        BlockPos blockpos = pContext.getClickedPos();
-        BlockState blockstate = level.getBlockState(blockpos);
-        if (blockstate.is(Blocks.LECTERN)) {
-            return LecternBlock.tryPlaceBook(pContext.getPlayer(), level, blockpos, blockstate, pContext.getItemInHand()) ? InteractionResult.sidedSuccess(level.isClientSide) : InteractionResult.PASS;
-        } else {
-            return InteractionResult.PASS;
-        }
+            return  InteractionResult.CONSUME;
     }
 
 }

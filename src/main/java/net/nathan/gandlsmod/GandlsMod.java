@@ -1,6 +1,7 @@
 package net.nathan.gandlsmod;
 
 import com.mojang.logging.LogUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -20,6 +21,7 @@ import net.nathan.gandlsmod.item.ModCreativeModeTabs;
 import net.nathan.gandlsmod.item.ModItems;
 import net.nathan.gandlsmod.networking.ModMessages;
 import net.nathan.gandlsmod.particle.ModParticles;
+import net.nathan.gandlsmod.particle.custom.DeathParticles;
 import net.nathan.gandlsmod.sound.ModSounds;
 import org.slf4j.Logger;
 

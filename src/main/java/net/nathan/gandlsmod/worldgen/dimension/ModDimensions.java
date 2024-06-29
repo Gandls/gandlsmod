@@ -80,7 +80,6 @@ public class ModDimensions {
 
         //FlatLevelGeneratorSettings x = context.lookup(Registries.FLAT_LEVEL_GENERATOR_PRESET).getOrThrow(FlatLevelGeneratorPresets.BOTTOMLESS_PIT).get().settings();
 
-        //This does not work?
         FlatLevelSource flatChunkGenerator = new FlatLevelSource(
                 flatlevelgeneratorsettings
         );

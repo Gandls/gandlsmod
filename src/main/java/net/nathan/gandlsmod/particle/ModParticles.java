@@ -14,7 +14,10 @@ public class ModParticles {
             DeferredRegister.create(ForgeRegistries.PARTICLE_TYPES, GandlsMod.MOD_ID);
 
 
-    public static final RegistryObject<SimpleParticleType> DEATH_PARTICLES = PARTICLE_TYPES.register("death_particle", ()-> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> DEATH_PARTICLES = PARTICLE_TYPES.register("death_particle",
+            ()-> new SimpleParticleType(true));
+    public static final RegistryObject<SimpleParticleType> CHECK_PARTICLES = PARTICLE_TYPES.register("check_particle",
+            ()-> new SimpleParticleType(true));
     public static void register(IEventBus eventBus){
         PARTICLE_TYPES.register(eventBus);
     }
