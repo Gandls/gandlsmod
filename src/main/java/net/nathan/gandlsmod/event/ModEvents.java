@@ -188,13 +188,13 @@ public class ModEvents {
                     }
                     if(thirst.getpIndex() == 7){
                         //Shaman
-                        if(thirst.getCooldown((byte) 0) <= 0.0f){
+                        if(thirst.getCheck() <= 0.0f){
                             Entity m = event.getSource().getEntity();
                             if(m != null) {
                                 LightningBolt l = new LightningBolt(EntityType.LIGHTNING_BOLT, event.getEntity().level());
                                 l.setPos(m.position());
                                 m.level().addFreshEntity(l);
-                                thirst.setCooldown(4.0f,(byte) 0);
+                                thirst.setCheck(4.0f);
                             }
                         }
                     }
@@ -473,9 +473,7 @@ public class ModEvents {
                             thirst.addCharge(1);
                         }
                     }
-                    event.getEntity().sendSystemMessage(Component.literal("The player's charge is: " + thirst.getCharge()));
 
-                    thirst.setCooldown(5.0f, (byte) 1);
 
 
                     ModMessages.sendToPlayer(new ThirstDataSyncSToC(

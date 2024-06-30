@@ -14,8 +14,8 @@ public class DeathParticles extends TextureSheetParticle {
         this.xd = xd;
         this.yd = yd;
         this.zd = zd;
-        this.quadSize *= 0.85f;
-        this.lifetime = 20;
+        this.quadSize *= 1.85f;
+        this.lifetime = 4;
         this.setSpriteFromAge(s);
 
         this.rCol = 1f;

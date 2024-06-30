@@ -149,7 +149,7 @@ public class Ability2Packet {
 
                         start = start.add(Left.scale(4.0f));
                         start = start.add(up.scale(-3.0f));
-                        start = start.add(forward.scale(0.5f));
+                        start = start.add(forward.scale(-2.5f));
 
                         end = end.add(forward.scale(20.0f));
                         end = end.add(Left.scale(-4.0f));
@@ -201,7 +201,7 @@ public class Ability2Packet {
                 }
 
                 if(playerThirst.getpIndex() == 7){
-                    if(playerThirst.getCooldown((byte) 2) == 0){
+                    if(playerThirst.getCooldown((byte) 1) == 0){
                         //Shaman using Earth Shield
                         player.addEffect(new MobEffectInstance(ModEffects.EARTHSHIELD.get(),240,0));
                         pLevel.playSeededSound(null,player.getX(),player.getY(),player.getZ(),

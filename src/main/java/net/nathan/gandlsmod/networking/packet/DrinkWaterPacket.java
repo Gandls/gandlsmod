@@ -171,7 +171,7 @@ public class DrinkWaterPacket {
                 //If player is a shaman
                 if(playerThirst.getpIndex() == 7){
                     //And they're ability is not on cooldown
-                    if(playerThirst.getCooldown((byte) 1) <= 0.0f){
+                    if(playerThirst.getCooldown((byte) 0) <= 0.0f){
                         //Get all entities within 20 blocks
                         List<Entity> a = player.level().getEntities(player,player.getBoundingBox().inflate(20.0f));
 

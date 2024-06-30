@@ -26,6 +26,7 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> SPIN_SOUND = registerSoundEvents("spin_sound");
     public static final RegistryObject<SoundEvent> SLAM_SOUND = registerSoundEvents("slam_sound");
     public static final RegistryObject<SoundEvent> BERSERK_SOUND = registerSoundEvents("berserk_sound");
+    public static final RegistryObject<SoundEvent> EXECUTE_SOUND = registerSoundEvents("execute_sound");
 
     //Gravity Wizard
     public static final RegistryObject<SoundEvent> PULL_SOUND = registerSoundEvents("pull_sound");
@@ -35,11 +36,12 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> DAZE_SOUND = registerSoundEvents("daze_sound");
     public static final RegistryObject<SoundEvent> DYNAMITE_SOUND = registerSoundEvents("dynamite_sound");
     public static final RegistryObject<SoundEvent> DISARM_SOUND = registerSoundEvents("disarm_sound");
+    public static final RegistryObject<SoundEvent> EIGHT_GATES_SOUND = registerSoundEvents("eight_gates_sound");
 
     //Pyromancer(N/A)
 
-    //Warlock (N/A)
-
+    //Warlock
+    public static final RegistryObject<SoundEvent> SCARY_EXPRESSION_SOUND = registerSoundEvents("scary_expression_sound");
     //Shaman
     public static final RegistryObject<SoundEvent> EARTHSHIELD_SOUND = registerSoundEvents("earthshield_sound");
     public static final RegistryObject<SoundEvent> WOLFSUMMON_SOUND = registerSoundEvents("wolfsummon_sound");
@@ -47,6 +49,7 @@ public class ModSounds {
     //Assassin
     public static final RegistryObject<SoundEvent> MARK_SOUND = registerSoundEvents("mark_sound");
     public static final RegistryObject<SoundEvent> DODGE_SOUND = registerSoundEvents("dodge_sound");
+    public static final RegistryObject<SoundEvent> NIGHT_OF_KNIVES_SOUND = registerSoundEvents("night_of_knives_sound");
 
 
     public static final ForgeSoundType SOUND_MOD_SOUNDS = new ForgeSoundType(1f,1f,

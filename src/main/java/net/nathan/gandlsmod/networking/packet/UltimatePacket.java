@@ -7,6 +7,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -28,6 +29,8 @@ import net.nathan.gandlsmod.effects.EightGatesInstance;
 import net.nathan.gandlsmod.effects.GetOutEffectInstance;
 import net.nathan.gandlsmod.effects.ModEffects;
 import net.nathan.gandlsmod.networking.ModMessages;
+import net.nathan.gandlsmod.particle.ModParticles;
+import net.nathan.gandlsmod.sound.ModSounds;
 import net.nathan.gandlsmod.thirst.PlayerThirstProvider;
 import net.nathan.gandlsmod.worldgen.dimension.ModDimensions;
 import net.nathan.gandlsmod.worldgen.portal.ModPortal;
@@ -65,6 +68,8 @@ public class UltimatePacket {
                 if(playerThirst.getpIndex() == 1){
                     if(playerThirst.getCooldown((byte) 3) <= 0){
                         player.addEffect(new MobEffectInstance(ModEffects.EXECUTE.get(),140,0));
+                        pLevel.playSeededSound(null,player.getX(),player.getY(),player.getZ(),
+                                ModSounds.EXECUTE_SOUND.get(), SoundSource.AMBIENT,1f,1f,0);
                         playerThirst.setCooldown(180,(byte) 3);
                     }
                 }
@@ -130,9 +135,13 @@ public class UltimatePacket {
                         player.sendSystemMessage(Component.literal("I have eight gates"));
                         //If the brawler already has eight Gates active, interpret this packet as the opening of another gate
                         ((EightGatesInstance)player.getEffect(ModEffects.EIGHTGATES.get())).openGate();
+                        pLevel.playSeededSound(null,player.getX(),player.getY(),player.getZ(),
+                                ModSounds.EIGHT_GATES_SOUND.get(), SoundSource.AMBIENT,1f,1f,0);
                     }else{
                         player.sendSystemMessage(Component.literal("Adding Eight Gates effect"));
                         player.addEffect(new EightGatesInstance(ModEffects.EIGHTGATES.get(),600,1));
+                        pLevel.playSeededSound(null,player.getX(),player.getY(),player.getZ(),
+                                ModSounds.EIGHT_GATES_SOUND.get(), SoundSource.AMBIENT,1f,1f,0);
                     }
                 }
 
@@ -147,17 +156,21 @@ public class UltimatePacket {
                 if(playerThirst.getpIndex() == 6){
                     if(playerThirst.getCooldown((byte) 3) <= 0){
                         player.addEffect(new MobEffectInstance(ModEffects.SCARYEXPRESSION.get(),300,0));
+                        pLevel.playSeededSound(null,player.getX(),player.getY(),player.getZ(),
+                                ModSounds.SCARY_EXPRESSION_SOUND.get(), SoundSource.AMBIENT,1f,1f,0);
 
                         playerThirst.setCooldown(180,(byte) 3);
                     }
                 }
                 if(playerThirst.getpIndex() == 7){
-                    if(playerThirst.getCheck() == 0){
+                    if(playerThirst.getCooldown((byte) 3) == 0){
                         Wolf w = new Wolf(EntityType.WOLF,pLevel);
                         w.setTame(true);
                         w.setOwnerUUID(player.getUUID());
                         w.addEffect(new MobEffectInstance(ModEffects.PINGDEATHLESS.get(),300,0));
                         w.addEffect(new MobEffectInstance(MobEffects.REGENERATION,300,10));
+                        pLevel.playSeededSound(null,player.getX(),player.getY(),player.getZ(),
+                                ModSounds.WOLFSUMMON_SOUND.get(), SoundSource.AMBIENT,1f,1f,0);
                         pLevel.addFreshEntity(w);
                         playerThirst.setCheck(180);
                     }
@@ -165,6 +178,8 @@ public class UltimatePacket {
                 if(playerThirst.getpIndex() == 8){
                     if(playerThirst.getCooldown((byte) 3) == 0){
                         player.addEffect(new MobEffectInstance(ModEffects.KNIVES.get(),200,0));
+                        pLevel.playSeededSound(null,player.getX(),player.getY(),player.getZ(),
+                                ModSounds.NIGHT_OF_KNIVES_SOUND.get(), SoundSource.AMBIENT,1f,1f,0);
                     }
                     playerThirst.setCooldown(240,(byte) 3);
                 }

@@ -112,5 +112,29 @@
     "sounds": [
       "gandlsmod:sound_limitless"
     ]
+  },
+  "execute_sound": {
+    "subtitle": "sounds.gandlsmod.sound_execute",
+    "sounds": [
+      "gandlsmod:sound_execute"
+    ]
+  },
+  "night_of_knives_sound": {
+    "subtitle": "sounds.gandlsmod.sound_night_of_knives",
+    "sounds": [
+      "gandlsmod:sound_night_of_knives"
+    ]
+  },
+  "scary_expression_sound": {
+    "subtitle": "sounds.gandlsmod.sound_scary_expression",
+    "sounds": [
+      "gandlsmod:sound_scary_expression"
+    ]
+  },
+  "eight_gates_sound": {
+    "subtitle": "sounds.gandlsmod.sound_eight_gates",
+    "sounds": [
+      "gandlsmod:sound_eight_gates"
+    ]
   }
 }
