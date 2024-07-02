@@ -22,7 +22,9 @@ import net.nathan.gandlsmod.client.ThirstHUDOverlay;
 import net.nathan.gandlsmod.networking.ModMessages;
 import net.nathan.gandlsmod.networking.packet.*;
 import net.nathan.gandlsmod.particle.ModParticles;
+import net.nathan.gandlsmod.particle.custom.CheckParticles;
 import net.nathan.gandlsmod.particle.custom.DeathParticles;
+import net.nathan.gandlsmod.particle.custom.ScaryParticles;
 import net.nathan.gandlsmod.thirst.PlayerThirstProvider;
 import net.nathan.gandlsmod.util.KeyBinding;
 
@@ -40,8 +42,18 @@ public class ClientEvents {
         @SubscribeEvent
         public static void registerParticleFactories(final RegisterParticleProvidersEvent event){
             //Minecraft.getInstance().particleEngine.register(ModParticles.DEATH_PARTICLES.get(), DeathParticles.Provider::new);
-            //Okay this is straight up not being run
-            Minecraft.getInstance().particleEngine.register(ModParticles.DEATH_PARTICLES.get(), DeathParticles.Provider::new);
+
+            /*
+            //This just works
+            event.registerSpriteSet(ModParticles.DEATH_PARTICLES.get(),DeathParticles.Provider::new);
+            //This just doesn't?
+            event.registerSpriteSet(ModParticles.DEATH_PARTICLES_LONG.get(),DeathParticles.ProviderT::new);
+            //This just doesn't?
+
+             */
+            event.registerSpriteSet(ModParticles.DEATH_PARTICLES.get(), CheckParticles.Provider::new);
+            event.registerSpriteSet(ModParticles.CHECK_PARTICLES.get(), CheckParticles.Provider::new);
+            event.registerSpriteSet(ModParticles.SCARY_EXPRESSION.get(), CheckParticles.Provider::new);
         }
         @SubscribeEvent
         public static void onKeyInput(InputEvent event){

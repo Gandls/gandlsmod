@@ -48,7 +48,7 @@ public class GandlsModGuideItem extends WrittenBookItem {
             CT.put("author", StringTag.valueOf("SARMA"));
             CT.put("title",StringTag.valueOf("Karma"));
             ListTag LT = new ListTag();
-            LT.add(0, StringTag.valueOf("Page1"));
+            LT.add(0, StringTag.valueOf("Hello and Welcome"));
             CT.put("pages", LT);
             CT.putBoolean("resolved",false);
             it.setTag(CT);

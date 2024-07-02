@@ -136,5 +136,11 @@
     "sounds": [
       "gandlsmod:sound_eight_gates"
     ]
+  },
+  "execute_effect_sound": {
+    "subtitle": "sounds.gandlsmod.sound_execute_effect",
+    "sounds": [
+      "gandlsmod:sound_execute_effect"
+    ]
   }
 }

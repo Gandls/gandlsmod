@@ -12,14 +12,13 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 public class CheckParticles extends TextureSheetParticle{
     CheckParticles(ClientLevel pLevel, double pX, double pY, double pZ, double pXSpeed, double pYSpeed, double pZSpeed) {
         super(pLevel, pX, pY, pZ);
-        this.gravity = -0.125F;
-        this.friction = 0.85F;
-        this.setSize(0.02F, 0.02F);
-        this.quadSize *= this.random.nextFloat() * 0.6F + 0.2F;
-        this.xd = pXSpeed * (double)0.2F + (Math.random() * 2.0D - 1.0D) * (double)0.02F;
-        this.yd = pYSpeed * (double)0.2F + (Math.random() * 2.0D - 1.0D) * (double)0.02F;
-        this.zd = pZSpeed * (double)0.2F + (Math.random() * 2.0D - 1.0D) * (double)0.02F;
-        this.lifetime = (int)(40.0D / (Math.random() * 0.8D + 0.2D));
+        this.friction = 0.8f;
+        this.quadSize *= 1.85f;
+        this.lifetime = 40;
+
+        this.rCol = 1f;
+        this.gCol = 1f;
+        this.bCol = 1f;
     }
 
     public void tick() {

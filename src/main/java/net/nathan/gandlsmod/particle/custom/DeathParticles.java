@@ -24,6 +24,22 @@ public class DeathParticles extends TextureSheetParticle {
 
     }
 
+    protected DeathParticles(boolean f,ClientLevel level, double x, double y, double z, SpriteSet s, double xd, double yd, double zd){
+        super(level,x,y,z,xd,yd,zd);
+
+        this.friction = 0.8f;
+        this.xd = xd;
+        this.yd = yd;
+        this.zd = zd;
+        this.quadSize *= 1.85f;
+        this.lifetime = 40;
+        this.setSpriteFromAge(s);
+
+        this.rCol = 1f;
+        this.gCol = 1f;
+        this.bCol = 1f;
+    }
+
     @Override
     public ParticleRenderType getRenderType() {
         return ParticleRenderType.PARTICLE_SHEET_TRANSLUCENT;
@@ -47,6 +63,20 @@ public class DeathParticles extends TextureSheetParticle {
                                        double x, double y, double z,
                                        double dx, double dy, double dz){
             return new DeathParticles(level,x,y,z,this.sprites,dx,dy,dz);
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static class ProviderT implements ParticleProvider<SimpleParticleType> {
+        private final SpriteSet z;
+        public ProviderT(SpriteSet spriteSet){
+            this.z = spriteSet;
+        }
+
+        public Particle createParticle(SimpleParticleType particleType, ClientLevel level,
+                                       double x, double y, double z,
+                                       double dx, double dy, double dz){
+            return new DeathParticles(true,level,x,y,z,this.z,dx,dy,dz);
         }
     }
 

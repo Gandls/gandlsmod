@@ -24,10 +24,7 @@ import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.network.NetworkEvent;
-import net.nathan.gandlsmod.effects.EightGatesEffect;
-import net.nathan.gandlsmod.effects.EightGatesInstance;
-import net.nathan.gandlsmod.effects.GetOutEffectInstance;
-import net.nathan.gandlsmod.effects.ModEffects;
+import net.nathan.gandlsmod.effects.*;
 import net.nathan.gandlsmod.networking.ModMessages;
 import net.nathan.gandlsmod.particle.ModParticles;
 import net.nathan.gandlsmod.sound.ModSounds;
@@ -67,7 +64,7 @@ public class UltimatePacket {
 
                 if(playerThirst.getpIndex() == 1){
                     if(playerThirst.getCooldown((byte) 3) <= 0){
-                        player.addEffect(new MobEffectInstance(ModEffects.EXECUTE.get(),140,0));
+                        player.addEffect(new ExecuteEffectInstance(ModEffects.EXECUTE.get(),140,0));
                         pLevel.playSeededSound(null,player.getX(),player.getY(),player.getZ(),
                                 ModSounds.EXECUTE_SOUND.get(), SoundSource.AMBIENT,1f,1f,0);
                         playerThirst.setCooldown(180,(byte) 3);

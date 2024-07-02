@@ -1,6 +1,9 @@
 package net.nathan.gandlsmod.effects;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -39,27 +42,32 @@ public class EightGatesEffect extends MobEffect {
             //6 - Strength 3 + Speed 2 + Jump Boost 1 + Resistance 2 + Dolphins Grace + Night Vision + Regeneration 2,
             //7 - Strength 4 + Speed 3 + Jump Boost 2 + Resistance 3 + Dolphins Grace + All entities within 10 blocks glow + Night Vision + Regeneration 3,
             //8 - Instant Kills, Speed 4, Jump Boost 2 + Resistance 4 + Dolphins Grace + All entities within 20 blocks glow + Night Vision + Regeneration 3
-
+            SimpleParticleType p = null;
             switch (pAmplifier){
                 case 1:
                     pLivingEntity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST,40,0));
+                    p = ParticleTypes.COMPOSTER;
                     break;
                 case 2:
+                    p = ParticleTypes.BUBBLE_POP;
                     pLivingEntity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST,40,1));
                     pLivingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,40,0));
                     break;
                 case 3:
+                    p = ParticleTypes.ASH;
                     pLivingEntity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST,40,1));
                     pLivingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,40,0));
                     pLivingEntity.addEffect(new MobEffectInstance(MobEffects.REGENERATION,40,0));
                     break;
                 case 4:
+                    p = ParticleTypes.CRIT;
                     pLivingEntity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST,40,1));
                     pLivingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,40,0));
                     pLivingEntity.addEffect(new MobEffectInstance(MobEffects.JUMP,40,0));
                     pLivingEntity.addEffect(new MobEffectInstance(MobEffects.REGENERATION,40,0));
                     break;
                 case 5:
+                    p = ParticleTypes.END_ROD;
                     pLivingEntity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST,40,2));
                     pLivingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,40,1));
                     pLivingEntity.addEffect(new MobEffectInstance(MobEffects.JUMP,40,0));
@@ -68,6 +76,7 @@ public class EightGatesEffect extends MobEffect {
                     pLivingEntity.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION,40,0));
                     break;
                 case 6:
+                    p = ParticleTypes.FALLING_OBSIDIAN_TEAR;
                     pLivingEntity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST,40,2));
                     pLivingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,40,1));
                     pLivingEntity.addEffect(new MobEffectInstance(MobEffects.JUMP,40,0));
@@ -77,6 +86,7 @@ public class EightGatesEffect extends MobEffect {
                     pLivingEntity.addEffect(new MobEffectInstance(MobEffects.NIGHT_VISION,40,0));
                     break;
                 case 7:
+                    p = ParticleTypes.DAMAGE_INDICATOR;
                     pLivingEntity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST,40,3));
                     pLivingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,40,2));
                     pLivingEntity.addEffect(new MobEffectInstance(MobEffects.JUMP,40,1));
@@ -92,6 +102,7 @@ public class EightGatesEffect extends MobEffect {
                     }
                     break;
                 case 8:
+                    p = ParticleTypes.HEART;
                     pLivingEntity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST,40,20));
                     pLivingEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED,40,3));
                     pLivingEntity.addEffect(new MobEffectInstance(MobEffects.JUMP,40,1));
@@ -106,6 +117,13 @@ public class EightGatesEffect extends MobEffect {
                         }
                     }
                     break;
+            }
+            if(p != null) {
+                ((ServerLevel) pLivingEntity.level()).sendParticles(p,
+                        pLivingEntity.getX(),
+                        pLivingEntity.getY() + 1.2f,
+                        pLivingEntity.getZ(),
+                        10, Math.random(), Math.random(), Math.random(), 0.5);
             }
 
         }

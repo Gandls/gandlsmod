@@ -28,6 +28,8 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> BERSERK_SOUND = registerSoundEvents("berserk_sound");
     public static final RegistryObject<SoundEvent> EXECUTE_SOUND = registerSoundEvents("execute_sound");
 
+    public static final RegistryObject<SoundEvent> EXECUTE_EFFECT_SOUND = registerSoundEvents("execute_effect_sound");
+
     //Gravity Wizard
     public static final RegistryObject<SoundEvent> PULL_SOUND = registerSoundEvents("pull_sound");
     public static final RegistryObject<SoundEvent> PUSH_SOUND = registerSoundEvents("push_sound");
