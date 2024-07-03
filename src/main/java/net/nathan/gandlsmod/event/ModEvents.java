@@ -4,6 +4,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.commands.arguments.EntityAnchorArgument;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -335,9 +337,7 @@ public class ModEvents {
                 }
             if(thirst.getpIndex() == 8){
                 Level pLevel = event.getEntity().level();
-                event.getEntity().sendSystemMessage(Component.literal("I'm registering a rogue attack"));
                 if(event.getEntity().getEffect(ModEffects.KNIVES.get()) != null){
-                    event.getEntity().sendSystemMessage(Component.literal("Rogue has effect"));
                     //If the rogue has Night of Knives active, their attacks should teleport them within 3m of the target
                     BlockPos p = event.getTarget().getOnPos();
                     BlockPos.MutableBlockPos blockpos$mutableblockpos = new BlockPos.MutableBlockPos();
@@ -346,7 +346,6 @@ public class ModEvents {
                     for(BlockPos blockpos : a) {
                         if(!x) {
                             if (blockpos.closerToCenterThan(event.getTarget().position(), (double) 3)) {
-                                event.getEntity().sendSystemMessage(Component.literal("Checking block close to enemy"));
                                 //If the blocks real distance to the target is less than 3
                                 blockpos$mutableblockpos.set(blockpos.getX(), blockpos.getY(), blockpos.getZ());
                                 BlockState blockstate1 = event.getEntity().level().getBlockState(blockpos$mutableblockpos);
@@ -355,6 +354,14 @@ public class ModEvents {
                                     if (!blockpos.closerToCenterThan(event.getEntity().position(), 2.8f)) {
                                         if(pLevel.getBlockState(blockpos.above()).is(Blocks.AIR) && pLevel.getBlockState(blockpos.above().above()).is(Blocks.AIR)){
                                             event.getEntity().sendSystemMessage(Component.literal("Teleporting"));
+
+                                            //Smoke particles:
+                                            for(int i=0;i<16;i++) {
+                                                //((ServerLevel)pLevel).sendParticles(ParticleTypes.CAMPFIRE_SIGNAL_SMOKE, (s.getX()+Math.random())-0.5, s.getY() + Math.random()*2f, (s.getZ()+Math.random())-0.5, 0, 0, 0,0,0);
+                                            }
+                                            ((ServerLevel)pLevel).sendParticles(ParticleTypes.CAMPFIRE_SIGNAL_SMOKE, s.getX(), s.getY()+1.0f, s.getZ(), 32, 0.3, 0.7,0.3,0);
+                                            //Play teleport sound:
+
                                             //If the block is not within 2 blocks of the attacker
                                             //Teleport
                                             x = true;

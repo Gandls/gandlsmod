@@ -18,10 +18,11 @@ import java.util.function.Supplier;
 public class ThirstDataSyncSToC {
     private final int thirst,pIndex;
     private final float c1,c2,c3,c4,bonusDamage,check;
+    private final float maxC1,maxC2,maxC3,maxC4;
     private final boolean emp,dazed;
     private static final String MESSAGE_DRINK_WATER = "message.gandlsmod.drink_water";
     private static final String MESSAGE_NO_WATER = "message.gandlsmod.no_water";
-    public ThirstDataSyncSToC(int thirst, float c1, float c2, float c3, float c4, int pIndex,float bonusDamage,float check, boolean emp, boolean dazed){
+    public ThirstDataSyncSToC(int thirst, float c1, float c2, float c3, float c4, int pIndex,float bonusDamage,float check, boolean emp, boolean dazed, float maxC1,float maxC2,float maxC3,float maxC4){
     this.thirst = thirst;
     this.c1 = c1;
     this.c2 = c2;
@@ -32,6 +33,10 @@ public class ThirstDataSyncSToC {
     this.check = check;
     this.emp = emp;
     this.dazed = dazed;
+    this.maxC1 = maxC1;
+    this.maxC2 = maxC2;
+    this.maxC3 = maxC3;
+    this.maxC4 = maxC4;
     }
 
     public ThirstDataSyncSToC(PlayerThirst p){
@@ -46,6 +51,10 @@ public class ThirstDataSyncSToC {
         this.check = p.getCheck();
         this.emp = p.getEmpowered();
         this.dazed = p.getDazed();
+        this.maxC1 = p.getMAXCooldown((byte) 0);
+        this.maxC2 = p.getMAXCooldown((byte) 1);
+        this.maxC3 = p.getMAXCooldown((byte) 2);
+        this.maxC4 = p.getMAXCooldown((byte) 3);
     }
 
     public ThirstDataSyncSToC(FriendlyByteBuf buf){
@@ -60,6 +69,10 @@ public class ThirstDataSyncSToC {
         this.check = buf.readFloat();
         this.emp = buf.readBoolean();
         this.dazed = buf.readBoolean();
+        this.maxC1 = buf.readFloat();
+        this.maxC2 = buf.readFloat();
+        this.maxC3 = buf.readFloat();
+        this.maxC4 = buf.readFloat();
     }
 
     public void toBytes(FriendlyByteBuf buf){
@@ -74,13 +87,17 @@ public class ThirstDataSyncSToC {
         buf.writeFloat(check);
         buf.writeBoolean(emp);
         buf.writeBoolean(dazed);
+        buf.writeFloat(maxC1);
+        buf.writeFloat(maxC2);
+        buf.writeFloat(maxC3);
+        buf.writeFloat(maxC4);
     }
 
     public boolean handle(Supplier<NetworkEvent.Context> supplier){
         NetworkEvent.Context context= supplier.get();
         context.enqueueWork(() -> {
             //HERE WE ARE ON THE CLIENT
-            ClientThirstData.set(thirst,c1,c2,c3,c4,pIndex,bonusDamage,check,emp,dazed);
+            ClientThirstData.set(thirst,c1,c2,c3,c4,pIndex,bonusDamage,check,emp,dazed,maxC1,maxC2,maxC3,maxC4);
 
         });
         return true;

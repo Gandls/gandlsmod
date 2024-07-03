@@ -15,6 +15,7 @@ public class PlayerThirst {
     private float check;
 
     private float c1,c2,c3,c4,bonusDamage;
+    private float maxC1,maxC2,maxC3,maxC4;
 
     private boolean empowered,dazed;
 
@@ -51,6 +52,49 @@ public class PlayerThirst {
     public void setPClass(int index) {
         playerClass = pClass.values()[index];
         pIndex = index;
+        switch (index){
+            case 1:
+                maxC1 = 5;
+                maxC2 = 15;
+                maxC3 = 180;
+                maxC4 = 180;
+                break;
+            case 3:
+                maxC1 = 60;
+                maxC2= 60;
+                maxC3 = 180;
+                maxC4 = 600;
+                break;
+            case 4:
+                maxC1 = 12;
+                maxC2 = 20;
+                maxC3 = 30;
+                maxC4 = 180;
+                break;
+            case 5:
+                maxC1 = 4;
+                maxC2 = 8;
+                maxC3 = 120;
+                maxC4 = 180;
+                break;
+            case 6:
+                maxC1 = 8;
+                maxC2 = 60;
+                maxC3 = 120;
+                maxC4 = 180;
+                break;
+            case 7:
+                maxC1 = 20;
+                maxC2 = 60;
+                maxC3 = 60;
+                maxC4 = 180;
+                break;
+            case 8:
+                maxC1 = 30;
+                maxC2 = 120;
+                maxC3 = 1;
+                maxC4 = 240;
+        }
     }
 
     public void setCharge(int val){this.charge = val;}
@@ -89,6 +133,26 @@ public class PlayerThirst {
         }
         return result;
     }
+
+    public float getMAXCooldown(byte i){
+        float result = -1.0f;
+        switch(i){
+            case 0:
+                result = maxC1;
+                return result;
+            case 1:
+                result = maxC2;
+                return result;
+            case 2:
+                result = maxC3;
+                return result;
+            case 3:
+                result = maxC4;
+                return result;
+        }
+        return result;
+    }
+
     public void setCooldown(float c, byte i){
         switch (i){
             case 0:
@@ -166,6 +230,10 @@ public class PlayerThirst {
         nbt.putFloat("c2",c2);
         nbt.putFloat("c3",c3);
         nbt.putFloat("c4",c4);
+        nbt.putFloat("maxC1",maxC1);
+        nbt.putFloat("maxC2",maxC2);
+        nbt.putFloat("maxC3",maxC3);
+        nbt.putFloat("maxC4",maxC4);
         nbt.putFloat("bonusDamage",bonusDamage);
     }
 
@@ -177,6 +245,10 @@ public class PlayerThirst {
         c2 = nbt.getFloat("c2");
         c3 = nbt.getFloat("c3");
         c4 = nbt.getFloat("c4");
+        maxC1 = nbt.getFloat("maxC1");
+        maxC2 = nbt.getFloat("maxC2");
+        maxC3 = nbt.getFloat("maxC3");
+        maxC4 = nbt.getFloat("maxC4");
         bonusDamage = nbt.getFloat("bonusDamage");
         playerClass = pClass.values()[pIndex];
         empowered = false;

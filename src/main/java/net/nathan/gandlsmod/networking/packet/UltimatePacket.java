@@ -127,15 +127,12 @@ public class UltimatePacket {
 
                 if(playerThirst.getpIndex() == 4){
                     //Brawler using Eight Gates
-                    player.sendSystemMessage(Component.literal("I register the ultimate packet and im a brawler"));
                     if(player.getEffect(ModEffects.EIGHTGATES.get()) != null){
-                        player.sendSystemMessage(Component.literal("I have eight gates"));
                         //If the brawler already has eight Gates active, interpret this packet as the opening of another gate
                         ((EightGatesInstance)player.getEffect(ModEffects.EIGHTGATES.get())).openGate();
                         pLevel.playSeededSound(null,player.getX(),player.getY(),player.getZ(),
                                 ModSounds.EIGHT_GATES_SOUND.get(), SoundSource.AMBIENT,1f,1f,0);
                     }else{
-                        player.sendSystemMessage(Component.literal("Adding Eight Gates effect"));
                         player.addEffect(new EightGatesInstance(ModEffects.EIGHTGATES.get(),600,1));
                         pLevel.playSeededSound(null,player.getX(),player.getY(),player.getZ(),
                                 ModSounds.EIGHT_GATES_SOUND.get(), SoundSource.AMBIENT,1f,1f,0);
@@ -152,7 +149,7 @@ public class UltimatePacket {
                 }
                 if(playerThirst.getpIndex() == 6){
                     if(playerThirst.getCooldown((byte) 3) <= 0){
-                        player.addEffect(new MobEffectInstance(ModEffects.SCARYEXPRESSION.get(),300,0));
+                        player.addEffect(new ExecuteEffectInstance(ModEffects.SCARYEXPRESSION.get(),300,0));
                         pLevel.playSeededSound(null,player.getX(),player.getY(),player.getZ(),
                                 ModSounds.SCARY_EXPRESSION_SOUND.get(), SoundSource.AMBIENT,1f,1f,0);
 
@@ -169,7 +166,7 @@ public class UltimatePacket {
                         pLevel.playSeededSound(null,player.getX(),player.getY(),player.getZ(),
                                 ModSounds.WOLFSUMMON_SOUND.get(), SoundSource.AMBIENT,1f,1f,0);
                         pLevel.addFreshEntity(w);
-                        playerThirst.setCheck(180);
+                        playerThirst.setCooldown(180,(byte) 3);
                     }
                 }
                 if(playerThirst.getpIndex() == 8){

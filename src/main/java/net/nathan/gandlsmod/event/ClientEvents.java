@@ -126,6 +126,16 @@ public class ClientEvents {
         }
 
         @SubscribeEvent
+        public static void registerParticleFactories(final RegisterParticleProvidersEvent event){
+            //Minecraft.getInstance().particleEngine.register(ModParticles.DEATH_PARTICLES.get(), DeathParticles.Provider::new);
+            //Okay this is straight up being run
+            Minecraft.getInstance().particleEngine.register(ModParticles.DEATH_PARTICLES.get(), DeathParticles.Provider::new);
+            event.registerSpriteSet(ModParticles.CHECK_PARTICLES.get(), CheckParticles.Provider::new);
+            event.registerSpriteSet(ModParticles.SCARY_EXPRESSION.get(), ScaryParticles.Provider::new);
+
+        }
+
+        @SubscribeEvent
         public static void registerGuiOverlays(RegisterGuiOverlaysEvent event){
             event.registerAboveAll("thirst", ThirstHUDOverlay.HUD_THIRST);
         }

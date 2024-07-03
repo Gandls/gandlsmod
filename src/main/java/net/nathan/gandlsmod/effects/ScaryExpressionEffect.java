@@ -12,6 +12,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
 import net.nathan.gandlsmod.Helper;
+import net.nathan.gandlsmod.particle.ModParticles;
 
 import java.util.List;
 
@@ -44,9 +45,13 @@ public class ScaryExpressionEffect extends MobEffect {
                             ((LivingEntity) b).addEffect(new MobEffectInstance(MobEffects.DARKNESS, 400, 0));
                             b.hurt(x,14);
                         }
-                        pos = pos.add(b.getPosition(0));
+                        pos = pos.add(b.getEyePosition(0));
                     }
                 }
+            }
+
+            if(pAmplifier == 1){
+                pLivingEntity.level().addParticle(ModParticles.SCARY_EXPRESSION.get(), pLivingEntity.getX(), pLivingEntity.getY() + 2.5f, pLivingEntity.getZ(), 0, 0, 0);
             }
 
         }
