@@ -4,7 +4,9 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.CameraType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.commands.EffectCommands;
+import net.minecraft.util.FastColor;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -34,27 +36,22 @@ public class ClientEvents {
 
     @Mod.EventBusSubscriber(modid = GandlsMod.MOD_ID, value = Dist.CLIENT)
     public  static class ClientForgeEvents {
-
+        private static final ResourceLocation GREY_SQUARE = new ResourceLocation(GandlsMod.MOD_ID,"textures/thirst/greysquare.png");
         public static void onMouseDrag(InputEvent event){
 
         }
 
         @SubscribeEvent
-        public static void registerParticleFactories(final RegisterParticleProvidersEvent event){
-            //Minecraft.getInstance().particleEngine.register(ModParticles.DEATH_PARTICLES.get(), DeathParticles.Provider::new);
-
+        public static void onPostDrawOverlay(ScreenEvent.Render.Post s){
             /*
-            //This just works
-            event.registerSpriteSet(ModParticles.DEATH_PARTICLES.get(),DeathParticles.Provider::new);
-            //This just doesn't?
-            event.registerSpriteSet(ModParticles.DEATH_PARTICLES_LONG.get(),DeathParticles.ProviderT::new);
-            //This just doesn't?
+            s.getGuiGraphics().blit(GREY_SQUARE,0,0,0,0,100,100,100,100);
+            s.getGuiGraphics().setColor(1f,1f,1f,0.5f);
+            s.getGuiGraphics().fill(0,0,100,100,16711680);
+            int a = FastColor.ARGB32.alpha(16711680);
 
              */
-            event.registerSpriteSet(ModParticles.DEATH_PARTICLES.get(), CheckParticles.Provider::new);
-            event.registerSpriteSet(ModParticles.CHECK_PARTICLES.get(), CheckParticles.Provider::new);
-            event.registerSpriteSet(ModParticles.SCARY_EXPRESSION.get(), CheckParticles.Provider::new);
         }
+
         @SubscribeEvent
         public static void onKeyInput(InputEvent event){
             if(KeyBinding.DRINKING_KEY.consumeClick()){
