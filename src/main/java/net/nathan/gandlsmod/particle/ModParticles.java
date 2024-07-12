@@ -16,13 +16,14 @@ public class ModParticles {
     //The name "death_particle" is the ONLY one that works
     //Put that name anywhere and it will function, regardless of the provider, the registryObject, the provider used
 
+
+    //GAME KEEPS COMING TO NULL POINTER HERE:
     public static final RegistryObject<SimpleParticleType> DEATH_PARTICLES = PARTICLE_TYPES.register("death_particle",
             ()-> new SimpleParticleType(true));
 
+
     public static final RegistryObject<SimpleParticleType> DEATH_PARTICLES_LONG = PARTICLE_TYPES.register("death_long_particle",
             ()-> new SimpleParticleType(true));
-
-
 
     public static final RegistryObject<SimpleParticleType> SCARY_EXPRESSION = PARTICLE_TYPES.register("scary_particle",
             ()->new SimpleParticleType(true));

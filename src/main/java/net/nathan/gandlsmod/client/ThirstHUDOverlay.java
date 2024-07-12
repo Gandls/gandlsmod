@@ -31,11 +31,15 @@ public class ThirstHUDOverlay {
     private static final ResourceLocation WARRIOR_STOMP = new ResourceLocation(GandlsMod.MOD_ID,"textures/thirst/warrior_stomp.png");
     private static final ResourceLocation WARRIOR_ULT = new ResourceLocation(GandlsMod.MOD_ID,"textures/thirst/warrior_ult.png");
     private static final ResourceLocation WARRIOR_EXECUTE = new ResourceLocation(GandlsMod.MOD_ID,"textures/thirst/warrior_execute.png");
+
+
     private static final ResourceLocation ASSASSIN_EVASION = new ResourceLocation(GandlsMod.MOD_ID,"textures/thirst/assassin_evasion.png");
     private static final ResourceLocation ASSASSIN_MARK = new ResourceLocation(GandlsMod.MOD_ID,"textures/thirst/assassin_mark.png");
     private static final ResourceLocation ASSASSIN_PASSIVE = new ResourceLocation(GandlsMod.MOD_ID,"textures/thirst/assassin_passive.png");
     private static final ResourceLocation ASSASSIN_POISON = new ResourceLocation(GandlsMod.MOD_ID,"textures/thirst/assassin_poison.png");
     private static final ResourceLocation ASSASSIN_NIGHT_OF_KNIVES = new ResourceLocation(GandlsMod.MOD_ID,"textures/thirst/assassin_night_of_knives.png");
+
+
     private static final ResourceLocation BRAWLER_DAZE_PUNCH = new ResourceLocation(GandlsMod.MOD_ID,"textures/thirst/brawler_daze_punch.png");
     private static final ResourceLocation BRAWLER_DISARM = new ResourceLocation(GandlsMod.MOD_ID,"textures/thirst/brawler_disarm.png");
     private static final ResourceLocation BRAWLER_EIGHT_GATES = new ResourceLocation(GandlsMod.MOD_ID,"textures/thirst/brawler_eight_gates.png");
@@ -66,10 +70,10 @@ public class ThirstHUDOverlay {
     private static final ResourceLocation WARLOCK_DRAGONBREATH = new ResourceLocation(GandlsMod.MOD_ID,"textures/thirst/warlock_dragonbreath.png");
     private static final ResourceLocation WARLOCK_SCARY_EXPRESSION = new ResourceLocation(GandlsMod.MOD_ID,"textures/thirst/warlock_scary_expression.png");
 
+
+
     private static final ResourceLocation BLACK_SQUARE = new ResourceLocation(GandlsMod.MOD_ID,"textures/thirst/a.png");
     private static final ResourceLocation GREY_SQUARE = new ResourceLocation(GandlsMod.MOD_ID,"textures/thirst/greysquare.png");
-
-    private static final ResourceLocation YELLOW_SQUARE = new ResourceLocation(GandlsMod.MOD_ID,"textures/thirst/YELLOW_SQUARE.png");
 
 
     public static final IGuiOverlay HUD_THIRST = ((gui, poseStack, partialTick, screenWidth, screenHeight) -> {
@@ -84,12 +88,6 @@ public class ThirstHUDOverlay {
         RenderSystem.enableBlend();
 
 
-
-        int c = ClientThirstData.getPlayerThirst();
-        float c1 = ClientThirstData.getC1();
-        float c2 = ClientThirstData.getC2();
-        float c3 = ClientThirstData.getC3();
-        float c4 = ClientThirstData.getC4();
         float bA = ClientThirstData.getBonusDamage();
 
         /*
@@ -121,6 +119,8 @@ public class ThirstHUDOverlay {
         poseStack.drawString(f,"Cooldown 4: " + roundToTwo(c4),x/6,5*y/8,16711680);
 
          */
+
+
         if(ClientThirstData.getPlayerIndex() != 0) {
             //If you have a class
             if (ClientThirstData.getPlayerIndex() == 4) {
@@ -135,10 +135,6 @@ public class ThirstHUDOverlay {
                 Outline(3, (x * 15) / 8, (y * 4 / 7), x / 8, x / 8, poseStack);
                 poseStack.blit(BRAWLER_EIGHT_GATES, ((x * 15) / 8), (y * 5) / 7, 0, 0, x / 8, x / 8, x / 8, x / 8);
                 Outline(3, (x * 15) / 8, (y * 5 / 7), x / 8, x / 8, poseStack);
-
-                if(ClientThirstData.getEmpowered()){
-                    OutlineEMP(3, (x * 15) / 8, (y * 2 / 7), x / 8, x / 8, poseStack);
-                }
             } else if (ClientThirstData.getPlayerIndex() == 1) {
                 //Warrior UI
                 poseStack.drawString(f, "Bonus Damage: " + roundToTwo(bA), x / 6, y / 8, 16711680);
@@ -153,7 +149,7 @@ public class ThirstHUDOverlay {
                 poseStack.blit(WARRIOR_EXECUTE, ((x * 15) / 8), (y * 5) / 7, 0, 0, x / 8, x / 8, x / 8, x / 8);
                 Outline(3, (x * 15) / 8, (y * 5 / 7), x / 8, x / 8, poseStack);
                 //fakeInnerBlitAlpha(poseStack,WARRIOR_PASSIVE,x*15/8,(x*15/8) + x/8,y/7,(y/7) + x/8,0,0,1,0,1,1f,1f,1f,0.5f );
-            }else if(ClientThirstData.getPlayerIndex() == 3){
+            } else if (ClientThirstData.getPlayerIndex() == 3) {
                 //Gravity Wizard
                 poseStack.blit(GWIZARD_PASSIVE, ((x * 15) / 8), (y / 7), 0, 0, x / 8, x / 8, x / 8, x / 8);
                 Outline(3, (x * 15) / 8, (y / 7), x / 8, x / 8, poseStack);
@@ -165,7 +161,7 @@ public class ThirstHUDOverlay {
                 Outline(3, (x * 15) / 8, (y * 4 / 7), x / 8, x / 8, poseStack);
                 poseStack.blit(GWIZARD_DOMAIN, ((x * 15) / 8), (y * 5) / 7, 0, 0, x / 8, x / 8, x / 8, x / 8);
                 Outline(3, (x * 15) / 8, (y * 5 / 7), x / 8, x / 8, poseStack);
-            }else if(ClientThirstData.getPlayerIndex() == 5){
+            } else if (ClientThirstData.getPlayerIndex() == 5) {
                 //PYRO
                 poseStack.blit(PYRO_PASSIVE, ((x * 15) / 8), (y / 7), 0, 0, x / 8, x / 8, x / 8, x / 8);
                 Outline(3, (x * 15) / 8, (y / 7), x / 8, x / 8, poseStack);
@@ -177,7 +173,7 @@ public class ThirstHUDOverlay {
                 Outline(3, (x * 15) / 8, (y * 4 / 7), x / 8, x / 8, poseStack);
                 poseStack.blit(PYRO_DRAGON, ((x * 15) / 8), (y * 5) / 7, 0, 0, x / 8, x / 8, x / 8, x / 8);
                 Outline(3, (x * 15) / 8, (y * 5 / 7), x / 8, x / 8, poseStack);
-            }else if(ClientThirstData.getPlayerIndex() == 6){
+            } else if (ClientThirstData.getPlayerIndex() == 6) {
                 //WARLOCK
                 poseStack.blit(WARLOCK_PASSIVE, ((x * 15) / 8), (y / 7), 0, 0, x / 8, x / 8, x / 8, x / 8);
                 Outline(3, (x * 15) / 8, (y / 7), x / 8, x / 8, poseStack);
@@ -189,7 +185,7 @@ public class ThirstHUDOverlay {
                 Outline(3, (x * 15) / 8, (y * 4 / 7), x / 8, x / 8, poseStack);
                 poseStack.blit(WARLOCK_SCARY_EXPRESSION, ((x * 15) / 8), (y * 5) / 7, 0, 0, x / 8, x / 8, x / 8, x / 8);
                 Outline(3, (x * 15) / 8, (y * 5 / 7), x / 8, x / 8, poseStack);
-            }else if(ClientThirstData.getPlayerIndex() == 7){
+            } else if (ClientThirstData.getPlayerIndex() == 7) {
                 //SHAMAN
                 poseStack.blit(SHAMAN_PASSIVE, ((x * 15) / 8), (y / 7), 0, 0, x / 8, x / 8, x / 8, x / 8);
                 Outline(3, (x * 15) / 8, (y / 7), x / 8, x / 8, poseStack);
@@ -201,7 +197,7 @@ public class ThirstHUDOverlay {
                 Outline(3, (x * 15) / 8, (y * 4 / 7), x / 8, x / 8, poseStack);
                 poseStack.blit(SHAMAN_ULT, ((x * 15) / 8), (y * 5) / 7, 0, 0, x / 8, x / 8, x / 8, x / 8);
                 Outline(3, (x * 15) / 8, (y * 5 / 7), x / 8, x / 8, poseStack);
-            }else if(ClientThirstData.getPlayerIndex() == 8){
+            } else if (ClientThirstData.getPlayerIndex() == 8) {
                 //ASSASSIN
                 poseStack.blit(ASSASSIN_PASSIVE, ((x * 15) / 8), (y / 7), 0, 0, x / 8, x / 8, x / 8, x / 8);
                 Outline(3, (x * 15) / 8, (y / 7), x / 8, x / 8, poseStack);
@@ -214,6 +210,11 @@ public class ThirstHUDOverlay {
                 poseStack.blit(ASSASSIN_NIGHT_OF_KNIVES, ((x * 15) / 8), (y * 5) / 7, 0, 0, x / 8, x / 8, x / 8, x / 8);
                 Outline(3, (x * 15) / 8, (y * 5 / 7), x / 8, x / 8, poseStack);
             }
+            }
+
+
+
+
 
             //this is regardless of the class
 
@@ -265,9 +266,11 @@ public class ThirstHUDOverlay {
                 fakeBlitAlpha(poseStack, (x * 15) / 8, 5 * y / 7 + dif, 0, x / 8, nWidth, GREY_SQUARE, 0, 0, x / 8, x / 8, 1f, 1f, 1f, 0.5f);
                 poseStack.drawString(f,toTime(ClientThirstData.getC4()),(x * 15) / 8 + 20,5 * y / 7 + 20,16711680);
             }
+
+
         }
 
-    });
+    );
 
 
     public static void Outline(int margin, int x, int y, int width, int height, GuiGraphics s) {
@@ -277,12 +280,6 @@ public class ThirstHUDOverlay {
         s.blit(BLACK_SQUARE, x, y + height, 0, 0, width, margin, width, margin);
     }
 
-    public static void OutlineEMP(int margin, int x, int y, int width, int height, GuiGraphics s) {
-        s.blit(YELLOW_SQUARE, x - margin, y - margin, 0, 0, width + margin + margin, margin,width + margin + margin, margin);
-        s.blit(YELLOW_SQUARE, x - margin, y, 0, 0, margin, height + margin, margin, height + margin);
-        s.blit(YELLOW_SQUARE, x + width, y, 0, 0, margin, height + margin, margin, height + margin);
-        s.blit(YELLOW_SQUARE, x, y + height, 0, 0, width, margin, width, margin);
-    }
 
 
 
