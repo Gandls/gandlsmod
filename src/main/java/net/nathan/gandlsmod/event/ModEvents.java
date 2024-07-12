@@ -14,6 +14,7 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.projectile.LargeFireball;
 import net.minecraft.world.entity.projectile.Projectile;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -29,6 +30,8 @@ import net.nathan.gandlsmod.GandlsMod;
 import net.nathan.gandlsmod.client.ClientThirstData;
 import net.nathan.gandlsmod.effects.GetOutEffectInstance;
 import net.nathan.gandlsmod.effects.ModEffects;
+import net.nathan.gandlsmod.item.ModItems;
+import net.nathan.gandlsmod.item.custom.GandlsModGuideItem;
 import net.nathan.gandlsmod.networking.ModMessages;
 import net.nathan.gandlsmod.networking.packet.ThirstDataSyncSToC;
 import net.nathan.gandlsmod.particle.ModParticles;
@@ -60,7 +63,6 @@ public class ModEvents {
     @SubscribeEvent
     public static void removeEffect(MobEffectEvent.Expired event){
         x++;
-        event.getEntity().sendSystemMessage(Component.literal("Entered MobEffectEvent Expiration"));
             MobEffectInstance s = event.getEffectInstance();
             if(s != null){
                 if(s instanceof GetOutEffectInstance){
@@ -94,10 +96,6 @@ public class ModEvents {
         }
 
     }
-
-
-
-
     //LivingDamageEvent is fired just before damage is applied to entity.
     //At this point armor, potion and absorption modifiers have already been applied to damage - this is FINAL value.
     //Also note that appropriate resources (like armor durability and absorption extra hearths) have already been consumed.
@@ -391,6 +389,7 @@ public class ModEvents {
 
     @SubscribeEvent
     public static void onPlayerCloned(PlayerEvent.Clone event) {
+        event.getEntity().addItem(new ItemStack(ModItems.GANDLS_GUIDE.get()));
         if(event.isWasDeath()) {
             event.getOriginal().sendSystemMessage(Component.literal("I know it was a death"));
             event.getOriginal().reviveCaps();

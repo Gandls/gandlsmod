@@ -227,7 +227,7 @@ public class ThirstHUDOverlay {
 
                 //poseStacksetColor IS affecting future renders, but the alpha isn't?
                 //Red, Green, and Blue all respond to being 0'd out
-                fakeBlitAlpha(poseStack, (x * 15) / 8, 2 * y / 7 + dif, 0, x / 8, nWidth, GREY_SQUARE, 0, 0, x / 8, x / 8, 1f, 1f, 1f, 0.5f);
+                fakeBlitAlpha(poseStack, (x * 15) / 8, (2 * y / 7) + dif, 0, x / 8, nWidth, GREY_SQUARE, 0, 0, x / 8, x / 8, 1f, 1f, 1f, 0.5f);
                 poseStack.drawString(f,toTime(ClientThirstData.getC1()),(x * 15) / 8 + 20,2 * y / 7 + 20,16711680);
             }
             if (ClientThirstData.getC2() != 0 && ClientThirstData.getPlayerIndex() != 8) {
@@ -239,7 +239,7 @@ public class ThirstHUDOverlay {
                 //poseStacksetColor IS affecting future renders, but the alpha isn't?
 
                 //Red, Green, and Blue all respond to being 0'd out
-                fakeBlitAlpha(poseStack, (x * 15) / 8, 3 * y / 7 + dif, 0, x / 8, nWidth, GREY_SQUARE, 0, 0, x / 8, x / 8, 1f, 1f, 1f, 0.5f);
+                fakeBlitAlpha(poseStack, (x * 15) / 8, (3 * y / 7) + dif, 0, x / 8, nWidth, GREY_SQUARE, 0, 0, x / 8, x / 8, 1f, 1f, 1f, 0.5f);
                 poseStack.drawString(f,toTime(ClientThirstData.getC2()),(x * 15) / 8 + 20,3 * y / 7 + 20,16711680);
             }
             if (ClientThirstData.getC3() != 0) {
@@ -251,7 +251,7 @@ public class ThirstHUDOverlay {
                 //poseStacksetColor IS affecting future renders, but the alpha isn't?
 
                 //Red, Green, and Blue all respond to being 0'd out
-                fakeBlitAlpha(poseStack, (x * 15) / 8, 4 * y / 7 + dif, 0, x / 8, nWidth, GREY_SQUARE, 0, 0, x / 8, x / 8, 1f, 1f, 1f, 0.5f);
+                fakeBlitAlpha(poseStack, (x * 15) / 8, (4 * y / 7) + dif, 0, x / 8, nWidth, GREY_SQUARE, 0, 0, x / 8, x / 8, 1f, 1f, 1f, 0.5f);
                 poseStack.drawString(f,toTime(ClientThirstData.getC3()),(x * 15) / 8 + 20,4 * y / 7 + 20,16711680);
             }
             if (ClientThirstData.getC4() != 0) {
@@ -263,7 +263,7 @@ public class ThirstHUDOverlay {
                 //poseStacksetColor IS affecting future renders, but the alpha isn't?
 
                 //Red, Green, and Blue all respond to being 0'd out
-                fakeBlitAlpha(poseStack, (x * 15) / 8, 5 * y / 7 + dif, 0, x / 8, nWidth, GREY_SQUARE, 0, 0, x / 8, x / 8, 1f, 1f, 1f, 0.5f);
+                fakeBlitAlpha(poseStack, (x * 15) / 8, (5 * y / 7) + dif, 0, x / 8, nWidth, GREY_SQUARE, 0, 0, x / 8, x / 8, 1f, 1f, 1f, 0.5f);
                 poseStack.drawString(f,toTime(ClientThirstData.getC4()),(x * 15) / 8 + 20,5 * y / 7 + 20,16711680);
             }
 
