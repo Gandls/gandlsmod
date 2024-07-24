@@ -1,7 +1,9 @@
 package net.nathan.gandlsmod.effects;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -31,6 +33,10 @@ public class DragonBreathEffect extends MobEffect {
         }else{
             //TODO
             //Cone particles, each one going forward with a bit of randomness
+
+
+
+
             c = pLivingEntity.level().damageSources().dragonBreath();
             //Server Side Effects
             //Each tick, deal damage to the player, and damage entities in front
@@ -41,6 +47,13 @@ public class DragonBreathEffect extends MobEffect {
             Vec3 up = pLivingEntity.getUpVector(0);
             Vec3 left = up.cross(forward);
 
+            if(Math.random()<0.2) {
+                for (int i = 1; i < 6; i++) {
+                    //Successive boxes that get larger
+                    ((ServerLevel) pLivingEntity.level()).sendParticles(ParticleTypes.PORTAL, start.x + (forward.scale(i)).x, start.y + (forward.scale(i)).y, start.z + (forward.scale(i)).z, 10, i, i, i, 0);
+                }
+            }
+
             start = start.add(left.scale(5.0f));
             start = start.add(up.scale(-2.5f));
             start = start.add(forward.scale(0.5f));
@@ -50,8 +63,8 @@ public class DragonBreathEffect extends MobEffect {
             end = end.add(up.scale(3.5f));
             end = end.add(forward.scale(5.0f));
 
-            pLivingEntity.sendSystemMessage(Component.literal("Start: " + start));
-            pLivingEntity.sendSystemMessage(Component.literal("End: " + end));
+
+
             AABB area = new AABB(start,end);
 
             List<Entity> s = pLivingEntity.level().getEntities(pLivingEntity,area);
